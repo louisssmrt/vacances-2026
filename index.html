@@ -1875,6 +1875,32 @@ footer p { margin: 4px 0; line-height: 1.6; }
     <h2 class="section-title">À vous de voter.</h2>
     <p class="section-intro">Top 1 = 3pts · Top 2 = 2pts · Top 3 = 1pt. Pas de double dans ton classement. Tu peux re-voter quand tu veux, tous tes votes comptent (ouais ouais).</p>
 
+    <div class="suggest-block" style="margin-top: 0; margin-bottom: 44px;">
+      <div>
+        <h3>Une destination qui manque ?</h3>
+        <p class="suggest-intro">T'as une idée qu'on a pas creusée et qui te fait envie ? Balance-la ici. Je récup la liste et je relance un round de recherche dessus (vols, budget, itinéraire). On rajoutera peut-être un onglet pour ta proposition.</p>
+        <form class="suggest-form" id="suggest-form" onsubmit="submitSuggestion(event)">
+          <label>Ton prénom
+            <input type="text" id="sug-name" maxlength="30" placeholder="Robin / Hugo / Jules / Louis" required>
+          </label>
+          <label>La destination
+            <input type="text" id="sug-dest" maxlength="80" placeholder="Sri Lanka, Kirghizistan, Norvège..." required>
+          </label>
+          <label>Pourquoi ? (optionnel)
+            <textarea id="sug-reason" maxlength="280" placeholder="Trek, plage, capitale stylée, prix bas..."></textarea>
+          </label>
+          <button type="submit" id="sug-submit">Proposer</button>
+          <div id="sug-msg"></div>
+        </form>
+      </div>
+      <div>
+        <h4 style="font-size:13px;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:14px;font-weight:600">Propositions du crew</h4>
+        <div class="suggest-list" id="suggest-list">
+          <div class="suggest-empty">Aucune proposition pour l'instant.</div>
+        </div>
+      </div>
+    </div>
+
     <div class="vote-layout">
       <form class="vote-form" id="vote-form" onsubmit="submitVote(event)">
         <h3>Ton classement</h3>
@@ -1931,32 +1957,6 @@ footer p { margin: 4px 0; line-height: 1.6; }
         <h3>Classement live</h3>
         <div class="scoreboard-sub" id="scoreboard-sub">Chargement...</div>
         <div id="score-rows"></div>
-      </div>
-    </div>
-
-    <div class="suggest-block">
-      <div>
-        <h3>Une destination qui manque ?</h3>
-        <p class="suggest-intro">T'as une idée qu'on a pas creusée et qui te fait envie ? Balance-la ici. Je récup la liste et je relance un round de recherche dessus (vols, budget, itinéraire). On rajoutera peut-être un onglet pour ta proposition.</p>
-        <form class="suggest-form" id="suggest-form" onsubmit="submitSuggestion(event)">
-          <label>Ton prénom
-            <input type="text" id="sug-name" maxlength="30" placeholder="Robin / Hugo / Jules / Louis" required>
-          </label>
-          <label>La destination
-            <input type="text" id="sug-dest" maxlength="80" placeholder="Sri Lanka, Kirghizistan, Norvège..." required>
-          </label>
-          <label>Pourquoi ? (optionnel)
-            <textarea id="sug-reason" maxlength="280" placeholder="Trek, plage, capitale stylée, prix bas..."></textarea>
-          </label>
-          <button type="submit" id="sug-submit">Proposer</button>
-          <div id="sug-msg"></div>
-        </form>
-      </div>
-      <div>
-        <h4 style="font-size:13px;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:14px;font-weight:600">Propositions du crew</h4>
-        <div class="suggest-list" id="suggest-list">
-          <div class="suggest-empty">Aucune proposition pour l'instant.</div>
-        </div>
       </div>
     </div>
 
