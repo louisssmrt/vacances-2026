@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aout 2026 — On part ou ?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: oklch(0.16 0.012 260);
+  --bg-soft: oklch(0.21 0.015 260);
+  --bg-card: oklch(0.19 0.013 260);
+  --text: oklch(0.96 0.005 260);
+  --text-muted: oklch(0.65 0.01 260);
+  --border: oklch(0.28 0.015 260);
+  --accent: oklch(0.85 0.18 92);
+  --c-geo: oklch(0.62 0.18 25);
+  --c-alb: oklch(0.65 0.21 32);
+  --c-mne: oklch(0.65 0.16 215);
+  --c-mad: oklch(0.72 0.16 165);
+  --c-bos: oklch(0.55 0.20 320);
+  --c-azo: oklch(0.58 0.22 265);
+  --c-slo: oklch(0.7 0.13 190);
+  --c-mar: oklch(0.72 0.18 55);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background: var(--bg); color: var(--text);
+  line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4, h5 { font-family: 'Bricolage Grotesque', sans-serif; letter-spacing: -0.025em; }
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: oklch(0.16 0.012 260 / 0.82); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border); padding: 14px 28px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+nav .logo { font-family: 'Bricolage Grotesque'; font-weight: 600; font-size: 16px; letter-spacing: -0.01em; }
+nav .logo span { color: var(--accent); font-weight: 700; }
+nav ul { list-style: none; display: flex; gap: 24px; }
+nav a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; cursor: pointer; }
+nav a:hover, nav a.active { color: var(--text); }
+.menu-toggle { display: none; background: none; border: 0; color: var(--text); font-size: 26px; cursor: pointer; }
+
+.dropdown { position: relative; }
+.dropdown > a { display: inline-flex; align-items: center; gap: 5px; }
+.dropdown > a .caret { font-size: 10px; opacity: 0.6; transition: transform 0.2s; }
+.dropdown.open > a .caret { transform: rotate(180deg); }
+.dropdown-menu {
+  display: none; position: absolute; top: calc(100% + 10px); right: 0;
+  background: var(--bg-soft); border: 1px solid var(--border); border-radius: 12px;
+  padding: 6px; min-width: 220px; flex-direction: column; list-style: none;
+  box-shadow: 0 8px 30px oklch(0 0 0 / 0.3); z-index: 110;
+}
+.dropdown.open .dropdown-menu { display: flex; }
+.dropdown-menu li { width: 100%; }
+.dropdown-menu li a {
+  display: flex; align-items: center; gap: 10px; padding: 9px 14px;
+  border-radius: 8px; font-size: 14px; color: var(--text-muted); cursor: pointer;
+}
+.dropdown-menu li a:hover { background: var(--bg-card); color: var(--text); }
+.dropdown-menu li a .dest-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+  padding: 110px 32px 60px;
+  background: radial-gradient(ellipse at top right, oklch(0.85 0.18 92 / 0.10), transparent 50%),
+              radial-gradient(ellipse at bottom left, oklch(0.65 0.16 215 / 0.10), transparent 55%), var(--bg);
+  position: relative;
+}
+.hero-inner { max-width: 1340px; width: 100%; margin: 0 auto; }
+.hero .eyebrow {
+  font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--text-muted); font-weight: 600; margin-bottom: 28px;
+  display: flex; align-items: center; gap: 12px;
+}
+.hero .eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--accent); }
+.hero h1 { font-size: clamp(40px, 7.5vw, 104px); font-weight: 700; line-height: 0.98; margin-bottom: 28px; max-width: 1100px; }
+.hero h1 em { font-style: italic; color: var(--accent); font-weight: 500; }
+.hero p { font-size: clamp(16px, 1.4vw, 19px); max-width: 680px; color: var(--text-muted); margin-bottom: 48px; }
+.hero-stats { display: flex; gap: 56px; flex-wrap: wrap; }
+.hero-stats div { display: flex; flex-direction: column; gap: 4px; }
+.hero-stats .num { font-family: 'Bricolage Grotesque'; font-size: 28px; font-weight: 700; color: var(--text); }
+.hero-stats .lbl { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; }
+
+section { padding: 96px 32px; max-width: 1340px; margin: 0 auto; }
+.section-kicker { font-size: 13px; color: var(--text-muted); font-weight: 500; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
+.section-kicker::before { content: ''; width: 24px; height: 1px; background: var(--accent); }
+.section-title { font-size: clamp(34px, 4.8vw, 60px); line-height: 1.02; margin-bottom: 20px; font-weight: 700; }
+.section-intro { font-size: 17px; color: var(--text-muted); max-width: 680px; margin-bottom: 56px; }
+
+.group { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 80px; }
+.group-card { background: var(--bg-soft); border: 1px solid var(--border); padding: 22px; border-radius: 14px; transition: transform 0.2s, border-color 0.2s; }
+.group-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+.group-card h4 { font-size: 19px; margin-bottom: 4px; }
+.group-card .role { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.4; }
+.group-card .constraint { font-size: 12px; color: var(--accent); font-weight: 600; }
+
+.dest-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 22px; }
+.dest-card { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; cursor: pointer; transition: all 0.3s; display: flex; flex-direction: column; }
+.dest-card:hover { transform: translateY(-4px); border-color: var(--c); }
+.dest-card .visual { height: 220px; position: relative; overflow: hidden; background: linear-gradient(135deg, var(--c) 0%, oklch(0.2 0.02 260) 100%); }
+.dest-card .visual img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.75) saturate(1.1); transition: transform 0.5s, filter 0.3s; }
+.dest-card:hover .visual img { transform: scale(1.05); filter: brightness(0.9) saturate(1.15); }
+.dest-card .visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, oklch(0.16 0.012 260 / 0.7) 100%); pointer-events: none; }
+.dest-card .visual .country-name { position: absolute; bottom: 16px; left: 20px; right: 20px; font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: 34px; color: var(--text); letter-spacing: -0.02em; line-height: 0.95; z-index: 1; }
+.dest-card .body { padding: 22px; flex: 1; display: flex; flex-direction: column; }
+.dest-card .tier-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 12px; color: var(--text-muted); }
+.dest-card .tier { font-weight: 600; color: var(--c); }
+.dest-card h3 { font-size: 21px; margin-bottom: 6px; line-height: 1.2; }
+.dest-card .subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 18px; min-height: 42px; line-height: 1.5; }
+.dest-card .price-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
+.dest-card .price { font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: 24px; }
+.dest-card .price-lbl { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.dest-card .price-margin { color: var(--c); }
+.dest-card .cta { margin-top: auto; padding: 12px 18px; background: transparent; border: 1px solid var(--border); color: var(--text); font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; border-radius: 10px; transition: all 0.2s; text-align: center; }
+.dest-card .cta:hover { background: var(--c); border-color: var(--c); color: var(--bg); }
+
+.dest-page { display: none; }
+.dest-page.active { display: block; }
+.home-view.hidden { display: none; }
+
+.dest-hero { min-height: 56vh; padding: 130px 32px 70px; position: relative; overflow: hidden; }
+.dest-hero .hero-img { position: absolute; inset: 0; background-size: cover; background-position: center; filter: brightness(0.55) saturate(1.05); z-index: 0; }
+.dest-hero::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, oklch(0.16 0.012 260 / 0.4) 0%, oklch(0.16 0.012 260 / 0.85) 100%); }
+.dest-hero-inner { max-width: 1340px; margin: 0 auto; position: relative; z-index: 2; }
+.dest-hero .hero-tier { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--c); font-weight: 700; margin-bottom: 16px; }
+.dest-hero h1 { font-size: clamp(52px, 9.5vw, 140px); font-weight: 700; line-height: 0.92; margin-bottom: 28px; }
+.dest-hero .pitch { font-size: clamp(15px, 1.3vw, 18px); max-width: 720px; color: var(--text); opacity: 0.92; line-height: 1.65; }
+.back-btn { display: inline-flex; align-items: center; gap: 8px; color: var(--text); text-decoration: none; padding: 8px 16px; border-radius: 10px; background: oklch(0.16 0.012 260 / 0.4); border: 1px solid oklch(0.96 0.005 260 / 0.15); margin-bottom: 24px; cursor: pointer; font-family: inherit; font-size: 14px; backdrop-filter: blur(10px); }
+.back-btn:hover { background: oklch(0.16 0.012 260 / 0.7); }
+
+.dest-body { max-width: 1340px; margin: 0 auto; padding: 64px 32px; }
+.dest-body h2 { font-size: clamp(28px, 3vw, 40px); margin: 64px 0 12px; padding-top: 32px; border-top: 1px solid var(--border); }
+.dest-body h2:first-of-type { border-top: 0; padding-top: 0; margin-top: 0; }
+.dest-body p.section-intro-text { color: var(--text-muted); max-width: 720px; margin-bottom: 28px; font-size: 16px; line-height: 1.65; }
+
+.flight-card { display: inline-flex; align-items: center; gap: 18px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 22px; margin-bottom: 28px; font-size: 15px; flex-wrap: wrap; }
+.flight-card strong { color: var(--text); font-weight: 600; }
+.flight-card .arrow { color: var(--c); font-weight: 700; font-size: 18px; }
+.flight-card .meta { color: var(--text-muted); font-size: 13px; margin-left: 6px; }
+
+.trip-map { background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; padding: 26px 30px; margin-bottom: 28px; }
+.trip-route { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px; padding: 12px 0; }
+.trip-stop { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 12px 18px; background: var(--bg); border: 1.5px solid var(--c); border-radius: 14px; min-width: 110px; }
+.trip-stop strong { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.2; }
+.trip-stop small { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500; font-family: 'Plus Jakarta Sans'; }
+.trip-stop.start { background: var(--c); border-color: var(--c); }
+.trip-stop.start strong { color: var(--bg); }
+.trip-stop.start small { color: var(--bg); opacity: 0.7; }
+.trip-arrow { color: var(--c); font-size: 18px; font-weight: 700; padding: 0 4px; }
+
+.stage { display: grid; gap: 22px; margin-bottom: 22px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; padding: 26px; }
+.stage--right { grid-template-columns: 1fr 1.15fr; }
+.stage--left { grid-template-columns: 1.15fr 1fr; }
+.stage--feature { grid-template-columns: 1fr; }
+
+.stage-side { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.stage-title { font-size: clamp(22px, 2.4vw, 30px); color: var(--c); line-height: 1.1; font-weight: 700; margin: 0; }
+.stage-nights { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 600; margin-top: -4px; }
+.stage-nights::before { content: '·'; color: var(--c); }
+.stage-intro { font-size: 14.5px; color: var(--text-muted); line-height: 1.6; margin: 0; }
+
+.photos-mosaic { display: grid; gap: 6px; min-width: 0; }
+.photos-mosaic--2x2 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; aspect-ratio: 4/3; }
+.photos-mosaic--big-small { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; aspect-ratio: 3/2; }
+.photos-mosaic--big-small > :first-child { grid-row: span 2; }
+.photos-mosaic--3vert { grid-template-columns: 1fr 1fr 1fr; aspect-ratio: 5/2; }
+.photos-mosaic--strip { grid-template-columns: 1fr 1fr 1fr 1fr; aspect-ratio: 8/2; }
+.photos-mosaic--mix { grid-template-columns: 1.4fr 1fr; grid-template-rows: 1fr 1fr; aspect-ratio: 3/2; }
+.photos-mosaic--mix > :first-child { grid-row: span 2; }
+
+.photo { position: relative; overflow: hidden; border-radius: 10px; min-width: 0; background: linear-gradient(135deg, var(--c) 0%, oklch(0.2 0.015 260) 100%); }
+.photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s, filter 0.3s; filter: brightness(0.9) saturate(1.08); }
+.photo:hover img { transform: scale(1.04); filter: brightness(1) saturate(1.15); }
+.photo .photo-caption { position: absolute; bottom: 8px; left: 10px; font-size: 10px; color: var(--text); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; opacity: 0.85; background: oklch(0.16 0.012 260 / 0.5); padding: 3px 7px; border-radius: 4px; backdrop-filter: blur(4px); }
+
+.days-list { display: flex; flex-direction: column; gap: 0; }
+.day-compact { display: grid; grid-template-columns: 50px 1fr; gap: 14px; padding: 12px 0; align-items: flex-start; }
+.day-compact + .day-compact { border-top: 1px dashed oklch(0.28 0.015 260 / 0.6); }
+.day-tag { font-family: 'Bricolage Grotesque'; font-weight: 700; color: var(--c); font-size: 22px; line-height: 1; padding-top: 4px; display: flex; flex-direction: column; gap: 4px; }
+.day-tag small { font-size: 9px; color: var(--text-muted); font-family: 'Plus Jakarta Sans'; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; }
+.day-compact-content h5 { font-size: 14.5px; margin-bottom: 3px; font-weight: 600; line-height: 1.35; color: var(--text); }
+.day-compact-content p { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+
+.stage-mini { display: flex; align-items: center; gap: 22px; padding: 18px 26px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 22px; }
+.stage-mini .day-tag { font-size: 20px; padding-top: 0; }
+.stage-mini h5 { font-size: 15px; margin-bottom: 2px; font-weight: 600; }
+.stage-mini p { font-size: 13px; color: var(--text-muted); }
+
+.option-teaser { background: var(--bg-card); border: 1px solid var(--border); border-left: 4px solid var(--c); border-radius: 14px; padding: 28px; margin-bottom: 22px; }
+.option-teaser h3 { font-size: 22px; margin-bottom: 8px; color: var(--c); }
+.option-teaser p { color: var(--text-muted); font-size: 15px; line-height: 1.6; margin-bottom: 14px; }
+.option-teaser ul { list-style: none; padding-left: 0; }
+.option-teaser li { padding: 6px 0 6px 20px; position: relative; font-size: 14px; color: var(--text); }
+.option-teaser li::before { content: '→'; position: absolute; left: 0; color: var(--c); font-weight: 700; }
+
+.budget-table { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 26px; margin-bottom: 24px; max-width: 700px; }
+.budget-table h4 { font-size: 17px; margin-bottom: 16px; color: var(--c); font-weight: 700; }
+.budget-table table { width: 100%; border-collapse: collapse; }
+.budget-table td { padding: 11px 0; border-bottom: 1px solid var(--border); font-size: 14px; color: var(--text-muted); }
+.budget-table td:last-child { text-align: right; font-weight: 600; font-family: 'Bricolage Grotesque'; color: var(--text); }
+.budget-table tr.total td { padding-top: 16px; font-size: 17px; border-top: 2px solid var(--c); border-bottom: 0; font-weight: 700; color: var(--c); }
+.budget-table tr.total td:last-child { font-size: 22px; }
+.budget-table tr.margin td { font-size: 13px; color: var(--text-muted); font-style: italic; border-bottom: 0; padding-top: 8px; }
+.budgets-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 24px; }
+.budgets-2col .budget-table { max-width: none; margin-bottom: 0; }
+
+.pour-list { background: var(--bg-card); border: 1px solid var(--border); border-left: 4px solid oklch(0.75 0.16 165); border-radius: 14px; padding: 26px; margin-bottom: 24px; }
+.pour-list h4 { font-size: 17px; margin-bottom: 16px; color: oklch(0.78 0.18 165); }
+.pour-list ul { list-style: none; padding: 0; }
+.pour-list li { padding: 8px 0 8px 28px; position: relative; font-size: 14.5px; color: var(--text); line-height: 1.55; }
+.pour-list li::before { content: '✓'; position: absolute; left: 0; color: oklch(0.78 0.18 165); font-weight: 700; font-size: 16px; }
+
+.lodgings-list { display: grid; gap: 12px; }
+.lodging-row { display: grid; grid-template-columns: 180px 1fr 130px; gap: 24px; padding: 16px 22px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; align-items: center; }
+.lodging-row .lodging-location { font-weight: 600; color: var(--c); font-size: 14px; }
+.lodging-row .lodging-name { color: var(--text); font-size: 14px; line-height: 1.5; }
+.lodging-row .lodging-price { text-align: right; font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: 15px; color: var(--text); }
+
+.activities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.activity-card { padding: 22px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; }
+.activity-card .emoji { font-size: 28px; margin-bottom: 10px; display: block; }
+.activity-card h5 { font-size: 15px; margin-bottom: 4px; font-weight: 600; }
+.activity-card .activity-price { font-size: 13px; color: var(--c); font-weight: 600; }
+
+.opinion-page { display: none; padding-top: 110px; }
+.opinion-page.active { display: block; }
+.ranking-list { display: flex; flex-direction: column; gap: 14px; }
+.ranking-item { display: grid; grid-template-columns: 80px 1fr auto; gap: 24px; padding: 26px; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 14px; transition: border-color 0.2s, transform 0.2s; align-items: center; }
+.ranking-item:hover { border-color: var(--accent); transform: translateY(-2px); }
+.ranking-item.rank-1 { border-color: var(--accent); background: linear-gradient(135deg, oklch(0.85 0.18 92 / 0.08), var(--bg-soft)); }
+.rank-num { font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: 54px; color: var(--accent); line-height: 0.9; }
+.rank-content h3 { font-size: 22px; margin-bottom: 4px; }
+.rank-content .rank-tagline { color: var(--text-muted); font-size: 14px; margin-bottom: 12px; }
+.rank-content .rank-why { font-size: 14.5px; color: var(--text); opacity: 0.88; line-height: 1.65; }
+.rank-price { font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: 22px; text-align: right; }
+.rank-price small { display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; font-family: 'Plus Jakarta Sans'; margin-top: 4px; }
+.opinion-summary { margin-top: 48px; padding: 30px; background: var(--bg-soft); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 14px; }
+.opinion-summary h4 { color: var(--accent); margin-bottom: 14px; font-size: 18px; }
+.opinion-summary p { font-size: 16px; line-height: 1.7; color: var(--text); }
+.opinion-summary strong { color: var(--accent); font-weight: 700; }
+
+.vote-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px; }
+.vote-card { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 14px; padding: 26px; }
+.vote-card h4 { font-size: 19px; margin-bottom: 6px; }
+.vote-card .vote-role { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; line-height: 1.4; }
+.vote-card .vote-status { font-size: 13px; color: var(--accent); font-style: italic; font-weight: 500; }
+
+footer { background: var(--bg-soft); border-top: 1px solid var(--border); padding: 44px 32px; text-align: center; color: var(--text-muted); font-size: 13px; margin-top: 80px; }
+footer p { margin: 4px 0; line-height: 1.6; }
+
+@media (max-width: 1024px) {
+  .vote-grid { grid-template-columns: repeat(2, 1fr); }
+  .group { grid-template-columns: repeat(2, 1fr); }
+  .lodging-row { grid-template-columns: 160px 1fr; }
+  .lodging-row .lodging-price { grid-column: 1 / -1; text-align: left; padding-top: 6px; border-top: 1px dashed var(--border); }
+  .budgets-2col { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  nav { padding: 12px 20px; } nav .logo { font-size: 14px; } nav ul { display: none; } .menu-toggle { display: block; }
+  nav ul.open { display: flex; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; padding: 20px 24px; background: var(--bg-soft); border-bottom: 1px solid var(--border); gap: 16px; }
+  .dropdown-menu { position: static; min-width: 0; box-shadow: none; padding: 8px 0 0 14px; border: 0; background: transparent; margin-top: 4px; gap: 6px; }
+  .dropdown.open .dropdown-menu { display: flex; }
+  .hero { padding: 100px 20px 50px; min-height: 90vh; }
+  .hero-stats { gap: 36px; } .hero-stats .num { font-size: 24px; }
+  section { padding: 70px 20px; }
+  .group { grid-template-columns: 1fr; }
+  .dest-grid { grid-template-columns: 1fr; gap: 18px; }
+  .dest-body { padding: 48px 20px; }
+  .dest-body h2 { margin: 44px 0 14px; padding-top: 26px; }
+  .stage { grid-template-columns: 1fr; padding: 20px; gap: 18px; }
+  .stage--left, .stage--right { grid-template-columns: 1fr; }
+  .lodging-row { grid-template-columns: 1fr; gap: 6px; padding: 16px 18px; }
+  .lodging-row .lodging-price { text-align: left; }
+  .activities-grid { grid-template-columns: repeat(2, 1fr); }
+  .ranking-item { grid-template-columns: 56px 1fr; padding: 22px; }
+  .rank-num { font-size: 42px; }
+  .rank-price { grid-column: 1 / -1; text-align: right; padding-top: 12px; border-top: 1px solid var(--border); margin-top: 14px; }
+  .vote-grid { grid-template-columns: 1fr; }
+  .dest-hero { padding: 110px 20px 50px; min-height: auto; }
+  .trip-map { padding: 22px 18px; } .trip-route { gap: 8px; padding: 12px 0; }
+  .trip-stop { padding: 10px 14px; min-width: 90px; } .trip-stop strong { font-size: 12.5px; } .trip-stop small { font-size: 10px; }
+  .stage-mini { flex-direction: column; align-items: flex-start; gap: 8px; padding: 18px; }
+  .flight-card { padding: 12px 16px; }
+}
+@media (max-width: 420px) {
+  .hero h1 { font-size: 38px; }
+  .dest-card .visual .country-name { font-size: 28px; }
+  .activities-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">AOUT <span>2026</span> /// ON PART OÙ ?</div>
+  <button class="menu-toggle" onclick="document.querySelector('nav ul').classList.toggle('open')">≡</button>
+  <ul>
+    <li><a onclick="showView('home')">Home</a></li>
+    <li class="dropdown" id="dest-dropdown">
+      <a onclick="toggleDropdown(event)">Destinations <span class="caret">▼</span></a>
+      <ul class="dropdown-menu">
+        <li><a onclick="showDest('georgie')"><span class="dest-dot" style="background:var(--c-geo)"></span>Géorgie</a></li>
+        <li><a onclick="showDest('albanie')"><span class="dest-dot" style="background:var(--c-alb)"></span>Albanie</a></li>
+        <li><a onclick="showDest('montenegro')"><span class="dest-dot" style="background:var(--c-mne)"></span>Monténégro</a></li>
+        <li><a onclick="showDest('madere')"><span class="dest-dot" style="background:var(--c-mad)"></span>Madère</a></li>
+        <li><a onclick="showDest('bosnie')"><span class="dest-dot" style="background:var(--c-bos)"></span>Bosnie</a></li>
+        <li><a onclick="showDest('acores')"><span class="dest-dot" style="background:var(--c-azo)"></span>Açores</a></li>
+        <li><a onclick="showDest('slovenie')"><span class="dest-dot" style="background:var(--c-slo)"></span>Slovénie</a></li>
+        <li><a onclick="showDest('maroc')"><span class="dest-dot" style="background:var(--c-mar)"></span>Maroc</a></li>
+      </ul>
+    </li>
+    <li><a onclick="showView('claude')">Selon Claude</a></li>
+    <li><a onclick="showView('vote')">Vote</a></li>
+  </ul>
+</nav>
+
+<!-- HOME -->
+<div class="home-view" id="home-view">
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Vacances été 2026 · 4 gars · 10 jours · 1500€/pers max</div>
+    <h1>8 destinations pour <em>péter</em><br>votre été.</h1>
+    <p>10 jours quelque part en aout, à 4, off-the-beaten-path, du sport, une base posée avec piscine ou mer, pas dans la canicule, et pays jamais vus. Voilà les options qui passent ce filtre. À vous de voter à la fin.</p>
+    <div class="hero-stats">
+      <div><span class="num">8</span><span class="lbl">destinations</span></div>
+      <div><span class="num">10</span><span class="lbl">jours</span></div>
+      <div><span class="num">4</span><span class="lbl">potes</span></div>
+      <div><span class="num">1500€</span><span class="lbl">/pers max</span></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="section-kicker">Le crew</div>
+  <h2 class="section-title">On part à 4.</h2>
+  <p class="section-intro">Récap des dispos. Fenêtre commune avec tout le monde = <strong style="color:var(--accent)">09 → 16 août (8 jours)</strong> si on attend Jules. Alternative : départ dès le 03/08, Jules rejoint sur place vers le 10/08 (option scindée).</p>
+  <div class="group">
+    <div class="group-card"><h4>Louis</h4><div class="role">Le planneur</div><div class="constraint">Dispo flex</div></div>
+    <div class="group-card"><h4>Robin</h4><div class="role">St Trop jusqu'au 02/08 · rattrapages dès le 24</div><div class="constraint">Dispo 03→23 août</div></div>
+    <div class="group-card"><h4>Hugo</h4><div class="role">St Trop jusqu'au 02/08 · reprend le 17/08</div><div class="constraint">Dispo 03→16 août</div></div>
+    <div class="group-card"><h4>Jules</h4><div class="role">Cérémonie armée 06-07/08 · perm derrière</div><div class="constraint">Dispo dès le 09-10 août</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="section-kicker">Les 8 candidates</div>
+  <h2 class="section-title">Choisissez votre arme.</h2>
+  <p class="section-intro">Click sur une destination pour voir l'itinéraire jour par jour, le budget détaillé et les logements suggérés.</p>
+
+  <div class="dest-grid">
+
+    <div class="dest-card" style="--c: var(--c-geo)" onclick="showDest('georgie')">
+      <div class="visual">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Tbilisi%20%2854%29.jpg?width=1200" alt="Géorgie" onerror="this.style.display='none'">
+        <div class="country-name">Géorgie</div>
+      </div>
+      <div class="body">
+        <div class="tier-row"><span class="tier">Tier S · Coup de coeur</span><span>Caucase</span></div>
+        <h3>Khinkali, monastères & mer Noire</h3>
+        <p class="subtitle">Le pays qui a inventé le vin il y a 8000 ans. Et personne le sait. Treks, food culte, Tbilissi nightlife.</p>
+        <div class="price-row">
+          <div><div class="price">913€</div><div class="price-lbl">par personne</div></div>
+          <div style="text-align:right"><div class="price price-margin">+587€</div><div class="price-lbl">marge budget</div></div>
+        </div>
+        <button class="cta">Voir l'itinéraire →</button>
+      </div>
+    </div>
+
+    <div class="dest-card" style="--c: var(--c-alb)" onclick="showDest('albanie')">
+      <div class="visual">
+        <img src="https://images.unsplash.com/photo-1595190588814-ae94398addf7?w=1200" alt="Albanie" onerror="this.style.display='none'">
+        <div class="country-name">Albanie</div>
+      </div>
+      <div class="body">
+        <div class="tier-row"><span class="tier">Tier S · Meilleur budget</span><span>Balkans</span></div>
+        <h3>Riviera + Alpes</h3>
+        <p class="subtitle">173 000 bunkers, 4 millions d'habitants. Le pays le plus paranoïaque d'Europe a la côte la plus turquoise.</p>
+        <div class="price-row">
+          <div><div class="price">634€</div><div class="price-lbl">par personne</div></div>
+          <div style="text-align:right"><div class="price price-margin">+866€</div><div class="price-lbl">marge budget</div></div>
+        </div>
+        <button class="cta">Voir l'itinéraire →</button>
+      </div>
+    </div>
+
+    <div class="dest-card" style="--c: var(--c-mne)" onclick="showDest('montenegro')">
+      <div class="visual">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kotor%20aerial%201.jpg?width=1200" alt="Monténégro" onerror="this.style.display='none'">
+        <div class="country-name">Monténégro</div>
+      </div>
+      <div class="body">
+        <div class="tier-row"><span class="tier">Tier S · L'underdog</span><span>Balkans</span></div>
+        <h3>Fjord, canyon & Adriatique</h3>
+        <p class="subtitle">Un pays plus petit que la Bretagne, avec un fjord, le canyon le plus profond d'Europe, et la mer.</p>
+        <div class="price-row">
+          <div><div class="price">832€</div><div class="price-lbl">par personne</div></div>
+          <div style="text-align:right"><div class="price price-margin">+668€</div><div class="price-lbl">marge budget</div></div>
+        </div>
+        <button class="cta">Voir l'itinéraire →</button>
+      </div>
+    </div>
+
+    <div class="dest-card" style="--c: var(--c-mad)" onclick="showDest('madere')">
+      <div class="visual">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Bergwelt%20am%20Pico%20Ruivo%2C%20Madeira%20II.jpg?width=1200" alt="Madère" onerror="this.style.display='none'">
+        <div class="country-name">Madère</div>
+      </div>
+      <div class="body">
+        <div class="tier-row"><span class="tier">Tier S · Trek paradise</span><span>Atlantique</span></div>
+        <h3>Île volcan & levadas</h3>
+        <p class="subtitle">Climat éternel printemps 22°C en pleine canicule. Officiellement la destination préférée des retraités anglais.</p>
+        <div class="price-row">
+          <div><div class="price">911€</div><div class="price-lbl">par personne</div></div>
+          <div style="text-align:right"><div class="price price-margin">+589€</div><div class="price-lbl">marge budget</div></div>
+        </div>
+        <button class="cta">Voir l'itinéraire →</button>
+      </div>
+    </div>
+
+    <div class="dest-card" style="--c: var(--c-bos)" onclick="showDest('bosnie')">
+      <div class="visual">
+        <img src="https://images.unsplash.com/photo-1689019345483-4f847b92e5e3?w=1200" alt="Bosnie" onerror="this.style.display='none'">
+        <div class="country-name">Bosnie</div>
+      </div>
+      <div class="body">
+        <div class="tier-row"><span class="tier">Tier A</span><span>Balkans</span></div>
+        <h3>Sarajevo, Mostar & rafting Una</h3>
+        <p class="subtitle">À Sarajevo une mosquée, une cathédrale et une synagogue à 200m. Le café coûte 1€. Le bordel européen en 2km².</p>
+        <div class="price-row">
+          <div><div class="price">830€</div><div class="price-lbl">par personne</div></div>
+          <div style="text-align:right"><div class="price price-margin">+670€</div><div class="price-lbl">marge budget</div></div>
+        </div>
+        <button class="cta">Voir l'itinéraire →</button>
+      </div>
+    </div>
+
+    <div class="dest-card" style="--c: var(--c-azo)" onclick="showDest('acores')">
+      <div class="visual">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Lagoa%20das%20Sete%20Cidades3.jpg?width=1200" alt="Açores" onerror="this.style.display='none'">
+        <div class="country-name">Açores</div>
+      </div>
+      <div class="body">
+        <div class="tier-row"><span class="tier">Tier A · Premium</span><span>Atlantique</span></div>
+        <h3>Hawaï d'Europe à 3h45 de Paris</h3>
+        <p class="subtitle">9 îles volcaniques au milieu de l'Atlantique. Tout le monde dit que c'est magnifique. Personne y va.</p>
+        <div class="price-row">
+          <div><div class="price">1143€</div><div class="price-lbl">par personne</div></div>
+          <div style="text-align:right"><div class="price price-margin">+357€</div><div class="price-lbl">marge budget</div></div>
+        </div>
+        <button class="cta">Voir l'itinéraire →</button>
+      </div>
+    </div>
+
+    <div class="dest-card" style="--c: var(--c-slo)" onclick="showDest('slovenie')">
+      <div class="visual">
+        <img src="https://images.unsplash.com/photo-1660342831703-f27ab3f32278?w=1200" alt="Slovénie" onerror="this.style.display='none'">
+        <div class="country-name">Slovénie</div>
+      </div>
+      <div class="body">
+        <div class="tier-row"><span class="tier">Tier A</span><span>Alpes</span></div>
+        <h3>Alpes Juliennes & Soča</h3>
+        <p class="subtitle">2 millions d'habitants, le tour complet du pays en 515km. Et une rivière vert fluo qui n'est pas un filtre.</p>
+        <div class="price-row">
+          <div><div class="price">830€</div><div class="price-lbl">par personne</div></div>
+          <div style="text-align:right"><div class="price price-margin">+670€</div><div class="price-lbl">marge budget</div></div>
+        </div>
+        <button class="cta">Voir l'itinéraire →</button>
+      </div>
+    </div>
+
+    <div class="dest-card" style="--c: var(--c-mar)" onclick="showDest('maroc')">
+      <div class="visual">
+        <img src="https://images.unsplash.com/photo-1611859836043-a9177f500a27?w=1200" alt="Maroc" onerror="this.style.display='none'">
+        <div class="country-name">Maroc</div>
+      </div>
+      <div class="body">
+        <div class="tier-row"><span class="tier">Tier A · Hybrid</span><span>Afrique du Nord</span></div>
+        <h3>Surf Taghazout + Toubkal 4167m</h3>
+        <p class="subtitle">Le seul endroit où tu peux surfer à 25°C le matin et bouffer du givre à 4000m d'altitude trois jours plus tard.</p>
+        <div class="price-row">
+          <div><div class="price">820€</div><div class="price-lbl">par personne</div></div>
+          <div style="text-align:right"><div class="price price-margin">+680€</div><div class="price-lbl">marge budget</div></div>
+        </div>
+        <button class="cta">Voir l'itinéraire →</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</div>
+
+<!-- ===================== GÉORGIE ===================== -->
+<div class="dest-page" id="dest-georgie" style="--c: var(--c-geo)">
+  <div class="dest-hero">
+    <div class="hero-img" style="background-image: url('https://commons.wikimedia.org/wiki/Special:FilePath/Gergeti%20Trinity%20Church%20and%20Mt.%20Kazbeg%2001.jpg?width=1800')"></div>
+    <div class="dest-hero-inner">
+      <button class="back-btn" onclick="showView('home')">← Retour</button>
+      <div class="hero-tier">Tier S · Caucase</div>
+      <h1>GÉORGIE</h1>
+      <p class="pitch">Petit fact pour ouvrir : la Géorgie a inventé le vin il y a 8000 ans dans des amphores enterrées, et a survécu à 26 invasions sans changer sa langue ni son alphabet. Au menu : Caucase à 5000m, monastères perchés, khinkali à 50 centimes, bains soufrés en pleine ville, et Bassiani — le club techno classé top 10 mondial qui ouvre à 2h du matin.</p>
+    </div>
+  </div>
+  <div class="dest-body">
+
+    <h2>Itinéraire Option 1 — Mer + Montagne</h2>
+    <p class="section-intro-text">La version qui couvre les trois faces du pays : la capitale, la haute montagne du Caucase, et la mer Noire. Trois logements seulement.</p>
+
+    <div class="flight-card">
+      <strong>Bruxelles</strong> <span class="arrow">→</span> <strong>Tbilissi</strong> <span class="meta">· vol 4h</span>
+    </div>
+
+    <div class="trip-map">
+      <div class="trip-route">
+        <div class="trip-stop start"><strong>Bruxelles ✈</strong></div>
+        <span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Tbilissi</strong><small>3 nuits</small></div>
+        <span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Kazbegi</strong><small>3 nuits</small></div>
+        <span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Batoumi</strong><small>3 nuits</small></div>
+        <span class="trip-arrow">→</span>
+        <div class="trip-stop start"><strong>Bruxelles ✈</strong></div>
+      </div>
+    </div>
+
+    <div class="stage stage--right">
+      <div class="stage-side">
+        <h3 class="stage-title">Tbilissi</h3>
+        <div class="stage-nights">3 nuits</div>
+        <p class="stage-intro">La capitale. Vieille ville à balcons en bois, bains sulfureux du quartier Abanotubani (10€ la séance), food crawl rue Shardeni. La nuit, Fabrika (ancienne usine reconvertie en bars hipster) puis Bassiani — le club techno dans un ancien bassin olympique, sélection à l'entrée, ambiance Berlin.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J1<small>vol</small></div><div class="day-compact-content"><h5>Vol Bruxelles → Tbilissi</h5><p>Arrivée soirée. Premier khinkali à 22h, on dort.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J2<small>capitale</small></div><div class="day-compact-content"><h5>Old town & bains soufrés</h5><p>Abanotubani, hammam soufré local. Food crawl rue Shardeni. Le soir, Fabrika.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J3<small>unesco</small></div><div class="day-compact-content"><h5>Mtskheta + Bassiani</h5><p>Monastères UNESCO à 40min de la capitale. Retour pour techno à Bassiani.</p></div></div>
+        </div>
+      </div>
+      <div class="photos-mosaic photos-mosaic--mix">
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Tbilisi%20%2854%29.jpg?width=1200" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Vieille ville</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Abanotubani%20%26%20Narikala%2C%20Tbilisi%20%282011%29.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Bains Abanotubani</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Courtyard%20view%20of%20Fabrika%20Tbilisi.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Fabrika</span></div>
+      </div>
+    </div>
+
+    <div class="stage stage--left">
+      <div class="photos-mosaic photos-mosaic--2x2">
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Gergeti%20Trinity%20Church%20and%20Mt.%20Kazbeg%2001.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Gergeti Trinity</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/2024-08-04%20Mount%20Kazbegi%20in%20evening%20light.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Mt Kazbek 5054m</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Stepantsminda%2C%20view%20from%20Gergeti.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Stepantsminda</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/2024-08-02%20Mountains%20seen%20from%20Gergeti%20Trinity%20Church.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Caucase</span></div>
+      </div>
+      <div class="stage-side">
+        <h3 class="stage-title">Kazbegi</h3>
+        <div class="stage-nights">3 nuits · 1740m altitude</div>
+        <p class="stage-intro">Le pays se compresse vers le Caucase. Stepantsminda, village face au Mt Kazbek (5054m), avec le monastère Gergeti Trinity perché à 2170m comme cliché culte. Treks alpins (Juta, Truso valley) avec quasi personne autour. Climat 18-22°C jour, frais le soir.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J4<small>route</small></div><div class="day-compact-content"><h5>Tbilissi → Kazbegi (3h)</h5><p>Marshrutka avec stop fortress Ananuri. Premier face-à-face avec le Mt Kazbek.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J5<small>trek</small></div><div class="day-compact-content"><h5>Gergeti Trinity Church</h5><p>5h aller-retour vers le monastère à 2170m. La photo cliché.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J6<small>trek++</small></div><div class="day-compact-content"><h5>Juta → lacs Abudelauri</h5><p>Le gros trek du séjour. 8h, paysages alpins, trois lacs glaciaires de couleurs différentes.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage stage--right">
+      <div class="stage-side">
+        <h3 class="stage-title">Batoumi</h3>
+        <div class="stage-nights">3 nuits · base posée mer</div>
+        <p class="stage-intro">Mer Noire, plage à pied, boulevard, et architecture totalement kitsch (Batoumi ressemble à un Las Vegas géorgien avec ses gratte-ciels excentriques). Base posée chill après les treks. Day trip possible vers le parc national Mtirala (cascade, jungle subtropicale) ou plongée mer Noire.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J7<small>transfert</small></div><div class="day-compact-content"><h5>Vol intérieur vers Batoumi</h5><p>Retour Tbilissi + vol 1h45 (~50€). Soirée boulevard mer Noire.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J8<small>chill</small></div><div class="day-compact-content"><h5>Base posée</h5><p>Plage, Botanical Garden, restos poisson grillés.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J9<small>activité</small></div><div class="day-compact-content"><h5>Mtirala NP ou plongée</h5><p>Jungle subtropicale + cascade, ou plongée Atlantique 50€.</p></div></div>
+        </div>
+      </div>
+      <div class="photos-mosaic photos-mosaic--big-small">
+        <div class="photo"><img src="https://plus.unsplash.com/premium_photo-1697729804280-da16ccd4bd3b?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Skyline mer Noire</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1625582175018-8fc4be59ac4f?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Boulevard</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1715250876727-5491e9d0b5d6?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Plage Batoumi</span></div>
+      </div>
+    </div>
+
+    <div class="stage-mini">
+      <div class="day-tag">J10<small>vol</small></div>
+      <div><h5>Vol retour Batoumi → Bruxelles</h5><p>Open-jaw, pas de retour Tbilissi nécessaire.</p></div>
+    </div>
+
+    <h2>Variante Option 2 — Tout montagne (Svaneti)</h2>
+    <p class="section-intro-text">Pour les vrais sportifs. On remplace la mer par 5 nuits à Mestia, le village UNESCO le plus isolé du Caucase. Le trek Mestia-Ushguli est dans le top 5 mondial selon National Geographic.</p>
+
+    <div class="option-teaser">
+      <h3>Mestia / Svaneti — 5 nuits trek paradise</h3>
+      <p>Base unique 5 nuits dans une guesthouse Svan avec piscine et vue Caucase. Treks au départ direct de la maison. Tours svans fortifiées du 9ème siècle dans tout le village.</p>
+      <ul>
+        <li>J4 - Vol Vanilla Sky vers Mestia (1h panoramique, ~30€)</li>
+        <li>J5 - Trek Mestia → Chalaadi Glacier (6h easy)</li>
+        <li>J6 - Trek Mestia → Koruldi Lakes (8h, lacs à 2700m)</li>
+        <li>J7 - Day trip Ushguli (UNESCO, plus haut village habité d'Europe)</li>
+        <li>J8 - Repos guesthouse, musée Svan, piscine</li>
+        <li>J9 - Vol retour Mestia → Tbilissi</li>
+        <li>J10 - Vol Tbilissi → Bruxelles</li>
+      </ul>
+    </div>
+
+    <h2>Budget par personne</h2>
+    <div class="budget-table">
+      <table>
+        <tr><td>Vol open-jaw Bruxelles ↔ Tbilissi/Batoumi</td><td>310€</td></tr>
+        <tr><td>Logement 10 nuits ÷4</td><td>148€</td></tr>
+        <tr><td>Transport interne (marshrutka + vol intérieur + taxis)</td><td>85€</td></tr>
+        <tr><td>Food 15€/j (boui-bouis + supermarché + 1-2 restos)</td><td>150€</td></tr>
+        <tr><td>Activités (vignoble + trek guidé + plongée)</td><td>170€</td></tr>
+        <tr><td>Divers (bains soufrés, musées)</td><td>50€</td></tr>
+        <tr class="total"><td>TOTAL</td><td>913€</td></tr>
+        <tr class="margin"><td>Marge sur budget 1500€</td><td>+587€</td></tr>
+      </table>
+    </div>
+
+    <h2>Le pour</h2>
+    <div class="pour-list">
+      <ul>
+        <li>Pays jamais vu par les 4. Aucun équivalent en Europe.</li>
+        <li>Khinkali à 0.50€ pièce, resto local 8€, vin à 2€ le verre.</li>
+        <li>Treks niveau Suisse, sans la foule.</li>
+        <li>Marge budget confortable (+587€/pers) → on peut craquer activités fat.</li>
+        <li>Mer + montagne + capitale dans le même trip.</li>
+        <li>Tbilissi nightlife reconnue mondialement (Bassiani, Khidi).</li>
+      </ul>
+    </div>
+
+    <h2>Logements suggérés</h2>
+    <div class="lodgings-list">
+      <div class="lodging-row"><div class="lodging-location">Tbilissi · 3n</div><div class="lodging-name">Airbnb 2 chambres centre Sololaki ou Old Town</div><div class="lodging-price">50–65€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Kazbegi · 3n</div><div class="lodging-name">Rooms Hotel Kazbegi (premium piscine) ou Kazbegi Guesthouse Lela (budget)</div><div class="lodging-price">60–100€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Batoumi · 3n</div><div class="lodging-name">Airbnb avec piscine quartier Boulevard</div><div class="lodging-price">75–90€/n</div></div>
+    </div>
+
+    <h2>Activités sport</h2>
+    <div class="activities-grid">
+      <div class="activity-card"><span class="emoji">🥾</span><h5>Trek Gergeti Trinity</h5><div class="activity-price">Gratuit · 5h easy</div></div>
+      <div class="activity-card"><span class="emoji">🏔️</span><h5>Trek Juta-Abudelauri</h5><div class="activity-price">50€ guide · 8h</div></div>
+      <div class="activity-card"><span class="emoji">🍷</span><h5>Wine tour Kakheti</h5><div class="activity-price">60€/pers</div></div>
+      <div class="activity-card"><span class="emoji">🪂</span><h5>Parapente Mtatsminda</h5><div class="activity-price">80€/pers</div></div>
+      <div class="activity-card"><span class="emoji">🤿</span><h5>Plongée mer Noire</h5><div class="activity-price">50€/pers</div></div>
+      <div class="activity-card"><span class="emoji">♨️</span><h5>Bains soufrés</h5><div class="activity-price">15€/pers</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ALBANIE ===================== -->
+<div class="dest-page" id="dest-albanie" style="--c: var(--c-alb)">
+  <div class="dest-hero">
+    <div class="hero-img" style="background-image: url('https://images.unsplash.com/photo-1595190588814-ae94398addf7?w=1800')"></div>
+    <div class="dest-hero-inner">
+      <button class="back-btn" onclick="showView('home')">← Retour</button>
+      <div class="hero-tier">Tier S · Balkans</div>
+      <h1>ALBANIE</h1>
+      <p class="pitch">Sous Enver Hoxha (1944-1985), le dictateur a construit 173 000 bunkers anti-nucléaires pour 4 millions d'habitants. Soit un bunker pour 23 personnes. Aujourd'hui le pays est ouvert depuis 30 ans, la côte ionienne ressemble à la Grèce sans les Grecs, les Alpes albanaises au nord sont intactes, et une bière coûte 1.50€. Vol Charleroi → Tirana à 110€ A/R. Calcul facile.</p>
+    </div>
+  </div>
+  <div class="dest-body">
+
+    <h2>Itinéraire Option 1 — Mer Riviera + Berat</h2>
+    <p class="section-intro-text">Base posée villa piscine à Dhermi (la plage la plus secrète de la Riviera, à éviter Ksamil bondé). City break Tirana et stop UNESCO à Berat sur la route.</p>
+
+    <div class="flight-card">
+      <strong>Bruxelles Charleroi</strong> <span class="arrow">→</span> <strong>Tirana</strong> <span class="meta">· vol 2h30</span>
+    </div>
+
+    <div class="trip-map">
+      <div class="trip-route">
+        <div class="trip-stop start"><strong>Charleroi ✈</strong></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Tirana</strong><small>1 nuit</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Berat</strong><small>1 nuit</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Dhermi</strong><small>5 nuits</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Tirana</strong><small>1 nuit</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop start"><strong>Charleroi ✈</strong></div>
+      </div>
+    </div>
+
+    <div class="stage stage--right">
+      <div class="stage-side">
+        <h3 class="stage-title">Tirana</h3>
+        <div class="stage-nights">1 nuit · capitale</div>
+        <p class="stage-intro">Bunk'Art : un musée installé dans un bunker enterré construit pour le dictateur. 8€ le bunker visité, c'est raisonnable. Soirée à Blloku, l'ancien quartier réservé au parti devenu zone bars/restos.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J1<small>vol</small></div><div class="day-compact-content"><h5>Charleroi → Tirana</h5><p>Bunk'Art, déjeuner pyramide colorée, soirée Blloku.</p></div></div>
+        </div>
+      </div>
+      <div class="photos-mosaic photos-mosaic--2x2">
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Pyramid%20of%20Tirana%20October%202023.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Pyramide</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1742500481926-f61a4be9abfe?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Place Skanderbeg</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1632353913765-9b56b7b4bd55?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Tirana</span></div>
+        <div class="photo"><img src="https://plus.unsplash.com/premium_photo-1690921288020-1556d0868ff5?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Nuit Blloku</span></div>
+      </div>
+    </div>
+
+    <div class="stage stage--left">
+      <div class="photos-mosaic photos-mosaic--big-small">
+        <div class="photo"><img src="https://images.unsplash.com/photo-1559219432-1962fcaa2752?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Berat aux 1000 fenêtres</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1569216961559-fd512349ebba?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Façades ottomanes</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1569166047786-b5e14e0bde1e?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Fenêtre détail</span></div>
+      </div>
+      <div class="stage-side">
+        <h3 class="stage-title">Berat</h3>
+        <div class="stage-nights">1 nuit · UNESCO</div>
+        <p class="stage-intro">"La ville aux 1000 fenêtres" : étagement des maisons blanches ottomanes flanc de colline. Château habité par des familles depuis 2400 ans (les gens vivent littéralement dans les murs). Sunset depuis un rooftop.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J2<small>unesco</small></div><div class="day-compact-content"><h5>Tirana → Berat (2h)</h5><p>Visite ville UNESCO, château habité, sunset rooftop, dîner local.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage stage--right">
+      <div class="stage-side">
+        <h3 class="stage-title">Dhermi</h3>
+        <div class="stage-nights">5 nuits · base Riviera</div>
+        <p class="stage-intro">La plage Drymades à Dhermi est sans doute la moins bondée de la Riviera albanaise (Ksamil = à éviter en août, on s'y arrête juste une journée). Villa piscine privée, plage à pied, boat trip vers Karaburuni (péninsule sauvage avec grottes), plongée Adriatique, trek Llogara depuis le col 1027m.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J3<small>route</small></div><div class="day-compact-content"><h5>Berat → Dhermi (3h)</h5><p>Stop col Llogara, vue mer Ionienne qui défonce.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J4<small>chill</small></div><div class="day-compact-content"><h5>Base Dhermi</h5><p>Plage Drymades, kayak baie, premier resto poisson 12€.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J5<small>boat</small></div><div class="day-compact-content"><h5>Boat trip Karaburuni</h5><p>Journée péninsule sauvage : plages cachées, grottes. 50€/pers.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J6<small>trek</small></div><div class="day-compact-content"><h5>Llogara National Park</h5><p>Trek 6h, pic Çika 2045m. Vue mer + montagnes en même temps.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J7<small>day trip</small></div><div class="day-compact-content"><h5>Saranda + Blue Eye + Ksamil</h5><p>Source bleue mystique + plages turquoise.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J8<small>plongée</small></div><div class="day-compact-content"><h5>Plongée Himare</h5><p>Plongée Adriatique 40€/pers, paddle.</p></div></div>
+        </div>
+      </div>
+      <div class="photos-mosaic photos-mosaic--mix">
+        <div class="photo"><img src="https://images.unsplash.com/photo-1595190588814-ae94398addf7?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Plage turquoise</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1698603616407-1355fe0054d5?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Village perché</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1738675326274-ae2601aef82d?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Beach walk Dhërmi</span></div>
+      </div>
+    </div>
+
+    <div class="stage-mini">
+      <div class="day-tag">J9-10<small>retour</small></div>
+      <div><h5>Dhermi → Tirana (4h) → vol retour Charleroi</h5><p>Dernière soirée food crawl Tirana, vol matin J10.</p></div>
+    </div>
+
+    <h2>Variante Option 2 — Alpes albanaises (trek pur)</h2>
+    <p class="section-intro-text">Le profil trek hardcore. Ferry mythique du lac Komani (3h sur un fjord en bateau), puis trek Valbona-Theth (16km, col 1795m), puis base 4 nuits à Theth, village isolé au pied des Alpes albanaises.</p>
+
+    <div class="option-teaser">
+      <h3>Shkoder → Komani → Valbona → Theth</h3>
+      <p>Avant que les Albanais découvrent leur propre montagne, ces villages étaient quasi-coupés du monde 6 mois par an. Aujourd'hui c'est devenu LA destination trek du pays.</p>
+      <ul>
+        <li>J1-2 - Shkoder (lac, vieille ville)</li>
+        <li>J3 - Ferry matin Komani (3h sur fjord) → Valbona</li>
+        <li>J4 - Trek Valbona → Theth (8h, col 1795m)</li>
+        <li>J5-7 - Base Theth (Blue Eye, Grunas waterfall, parc national)</li>
+        <li>J8 - Route 4x4 Theth → Shkoder</li>
+        <li>J9-10 - Retour Tirana + vol Charleroi</li>
+      </ul>
+    </div>
+
+    <h2>Budget par personne</h2>
+    <div class="budgets-2col">
+      <div class="budget-table">
+        <h4>Option 1 — Mer Riviera</h4>
+        <table>
+          <tr><td>Vol Charleroi-Tirana A/R Wizz</td><td>110€</td></tr>
+          <tr><td>Logement (Tirana + Berat + villa Dhermi)</td><td>162€</td></tr>
+          <tr><td>Voiture 9j + essence</td><td>77€</td></tr>
+          <tr><td>Food 12€/j x 10</td><td>120€</td></tr>
+          <tr><td>Activités</td><td>125€</td></tr>
+          <tr><td>Divers</td><td>40€</td></tr>
+          <tr class="total"><td>TOTAL</td><td>634€</td></tr>
+          <tr class="margin"><td>Marge sur 1500€</td><td>+866€</td></tr>
+        </table>
+      </div>
+      <div class="budget-table">
+        <h4>Option 2 — Alpes</h4>
+        <table>
+          <tr><td>Vol Charleroi-Tirana</td><td>110€</td></tr>
+          <tr><td>Logement (Shkoder + Valbona + Theth + Tirana)</td><td>122€</td></tr>
+          <tr><td>Voiture loc 5j</td><td>45€</td></tr>
+          <tr><td>Ferry Komani A/R</td><td>25€</td></tr>
+          <tr><td>Food (demi-pension Theth)</td><td>80€</td></tr>
+          <tr><td>Activités</td><td>125€</td></tr>
+          <tr><td>Divers</td><td>40€</td></tr>
+          <tr class="total"><td>TOTAL</td><td>547€</td></tr>
+          <tr class="margin"><td>Marge sur 1500€</td><td>+953€</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <h2>Le pour</h2>
+    <div class="pour-list">
+      <ul>
+        <li>Le budget LE PLUS BAS de toute la shortlist (547-634€/pers).</li>
+        <li>Pays jamais vu par les 4 → vraie découverte.</li>
+        <li>Mer turquoise + Alpes alpestres dans le même pays.</li>
+        <li>Marge énorme +866-953€/pers.</li>
+        <li>Anglais OK chez les jeunes, French OK chez les +30 ans.</li>
+        <li>Pays sûr, peu de touristes hors Ksamil.</li>
+        <li>Vol direct 2h30 Charleroi → Tirana à 110€ A/R.</li>
+      </ul>
+    </div>
+
+    <h2>Logements suggérés</h2>
+    <div class="lodgings-list">
+      <div class="lodging-row"><div class="lodging-location">Tirana</div><div class="lodging-name">Airbnb Blloku ou centre 2 chambres</div><div class="lodging-price">50–70€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Berat</div><div class="lodging-name">Hotel Berati ou Mangalem guesthouse</div><div class="lodging-price">45–60€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Dhermi</div><div class="lodging-name">Villa piscine privée Riviera (type Luxury Villa Dhermi)</div><div class="lodging-price">100–130€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Theth (Opt 2)</div><div class="lodging-name">Bujtina Polia (famille Polia, demi-pension)</div><div class="lodging-price">70€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Valbona (Opt 2)</div><div class="lodging-name">Hotel Rilindja (proprio gère le balisage des sentiers)</div><div class="lodging-price">55–65€/n</div></div>
+    </div>
+
+    <h2>Activités sport</h2>
+    <div class="activities-grid">
+      <div class="activity-card"><span class="emoji">🥾</span><h5>Trek Valbona-Theth</h5><div class="activity-price">40€ guide · 16km / 8h</div></div>
+      <div class="activity-card"><span class="emoji">🚤</span><h5>Boat Karaburuni</h5><div class="activity-price">50€/pers · journée</div></div>
+      <div class="activity-card"><span class="emoji">🪂</span><h5>Parapente Theth</h5><div class="activity-price">80€/pers</div></div>
+      <div class="activity-card"><span class="emoji">🤿</span><h5>Plongée Himare</h5><div class="activity-price">40€/pers</div></div>
+      <div class="activity-card"><span class="emoji">🛶</span><h5>Kayak Riviera</h5><div class="activity-price">30€/pers</div></div>
+      <div class="activity-card"><span class="emoji">🚲</span><h5>Vélo lac Shkoder</h5><div class="activity-price">15€/j</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== MONTÉNÉGRO ===================== -->
+<div class="dest-page" id="dest-montenegro" style="--c: var(--c-mne)">
+  <div class="dest-hero">
+    <div class="hero-img" style="background-image: url('https://commons.wikimedia.org/wiki/Special:FilePath/Kotor%20aerial%201.jpg?width=1800')"></div>
+    <div class="dest-hero-inner">
+      <button class="back-btn" onclick="showView('home')">← Retour</button>
+      <div class="hero-tier">Tier S · Balkans</div>
+      <h1>MONTÉNÉGRO</h1>
+      <p class="pitch">Le Monténégro fait 13 812 km². C'est plus petit que la Bretagne (27 200 km²) et la moitié de la Belgique. Et pourtant il rentre dedans : un fjord UNESCO (Bay of Kotor), le canyon le plus profond d'Europe (Tara, 1300m), un parc national alpin à 2500m (Durmitor), une côte adriatique, et un lac partagé avec l'Albanie.</p>
+    </div>
+  </div>
+  <div class="dest-body">
+
+    <h2>Itinéraire Option 1 — Mer + Montagne</h2>
+    <p class="section-intro-text">Le tour parfait : 5 nuits base posée villa piscine Bay of Kotor, 3 nuits Durmitor en altitude, et finir par 1 nuit Budva pour la veille du vol.</p>
+
+    <div class="flight-card">
+      <strong>Bruxelles Charleroi</strong> <span class="arrow">→</span> <strong>Podgorica</strong> <span class="meta">· vol 3h</span>
+    </div>
+
+    <div class="trip-map">
+      <div class="trip-route">
+        <div class="trip-stop start"><strong>Charleroi ✈</strong></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Bay of Kotor</strong><small>5 nuits</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Zabljak</strong><small>3 nuits</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Budva</strong><small>1 nuit</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop start"><strong>Charleroi ✈</strong></div>
+      </div>
+    </div>
+
+    <div class="stage stage--right">
+      <div class="stage-side">
+        <h3 class="stage-title">Bay of Kotor</h3>
+        <div class="stage-nights">5 nuits · base posée</div>
+        <p class="stage-intro">Un fjord en pleine Méditerranée (le seul), classé UNESCO. Villa piscine en baie à Prčanj ou Kumbor (Kotor même est bondé en pleine saison, on s'y rend en day trip). Boat trip vers Perast et l'île artificielle Our Lady of the Rocks (construite à la main pendant 200 ans). Fortress San Giovanni 1350 marches au-dessus de Kotor.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J1<small>vol</small></div><div class="day-compact-content"><h5>Charleroi → Podgorica + Kotor (1h30)</h5><p>Arrivée villa piscine baie, premier sunset terrasse.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J2<small>fortress</small></div><div class="day-compact-content"><h5>Kotor + San Giovanni</h5><p>Vieille ville UNESCO + 1350 marches au fort.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J3<small>bateau</small></div><div class="day-compact-content"><h5>Boat Perast + Blue Cave</h5><p>Our Lady of the Rocks, déj poisson Perast. 30€/pers.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J4<small>trek</small></div><div class="day-compact-content"><h5>Lovćen + Njegusi</h5><p>Trek mausolée + jambon fumé Njegusi.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J5<small>lac</small></div><div class="day-compact-content"><h5>Lac Skadar + vignobles</h5><p>Plus grand lac des Balkans, pélicans, Crmnica.</p></div></div>
+        </div>
+      </div>
+      <div class="photos-mosaic photos-mosaic--mix">
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kotor%20aerial%201.jpg?width=1200" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Kotor aerial</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1614122027743-50a9e6e8002f?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Kotor Bay aérienne</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/1%20perast%20aerial%202016.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Perast</span></div>
+      </div>
+    </div>
+
+    <div class="stage stage--left">
+      <div class="photos-mosaic photos-mosaic--2x2">
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Bobotov%20Kuk.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Bobotov Kuk</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Crno%20Jezero%20sa%20%C5%A0ljemena%20-%20panoramio.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Crno Jezero</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Durmitor%20national%20park%20montenegro.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Durmitor NP</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1613140606412-2459c0976a33?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Canyon Tara rafting</span></div>
+      </div>
+      <div class="stage-side">
+        <h3 class="stage-title">Durmitor</h3>
+        <div class="stage-nights">3 nuits · Zabljak 1450m</div>
+        <p class="stage-intro">Parc national alpin UNESCO. Mais surtout : le canyon de la Tara, le plus profond d'Europe (1300m). On y raft 18km en une journée (60€/pers, déj sur le raft). Treks lacs glaciaires (Crno Jezero) ou sommet Bobotov Kuk 2522m.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J6<small>route</small></div><div class="day-compact-content"><h5>Kotor → Zabljak (4h via canyon)</h5><p>Stop au pont sur la Tara, vue 1300m de profondeur.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J7<small>rafting</small></div><div class="day-compact-content"><h5>RAFTING CANYON TARA</h5><p>18km descente dans le canyon le plus profond d'Europe.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J8<small>trek</small></div><div class="day-compact-content"><h5>Trek Crno Jezero</h5><p>Lacs glaciaires + sources. 6h.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage stage--right">
+      <div class="stage-side">
+        <h3 class="stage-title">Budva</h3>
+        <div class="stage-nights">1 nuit · côte Adriatique</div>
+        <p class="stage-intro">Capitale fête du pays. À faire une nuit pour l'expérience, pas plus (Budva en pleine saison = mass tourisme russo-serbe). Visite Sveti Stefan le matin avant le vol : île-village fortifié devenu hôtel privé à 1500€/nuit.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J9<small>route</small></div><div class="day-compact-content"><h5>Zabljak → Budva (3h30)</h5><p>Bars rooftop, plages bondées, expérience une fois.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J10<small>vol</small></div><div class="day-compact-content"><h5>Sveti Stefan + vol retour</h5><p>Photo île privée + vol Podgorica → Charleroi.</p></div></div>
+        </div>
+      </div>
+      <div class="photos-mosaic photos-mosaic--big-small">
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sveti%20Stefan%20%2806%29.jpg?width=1200" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Sveti Stefan</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Budva%20-%20Sveti%20Stefan%201.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Depuis la plage</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aman%20Sveti%20Stefan%20private%20beach.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Île privée</span></div>
+      </div>
+    </div>
+
+    <h2>Variante Option 2 — Tout montagne</h2>
+    <p class="section-intro-text">Profil sport hardcore : base 5 nuits cabane Durmitor avec piscine, rafting Tara + canyoning Nevidio + ascension Bobotov Kuk 2522m.</p>
+
+    <div class="option-teaser">
+      <h3>Kotor (2n) → Durmitor (5n) → Podgorica (1n)</h3>
+      <ul>
+        <li>J1-2 - Kotor + boat Perast</li>
+        <li>J3 - Route Durmitor + check-in cabane piscine</li>
+        <li>J4 - Rafting Tara journée</li>
+        <li>J5 - Ascension Bobotov Kuk 2522m (9h dur)</li>
+        <li>J6 - Trek Crno + Zminje Jezero</li>
+        <li>J7 - Repos cabane + spa Zabljak</li>
+        <li>J8 - Canyoning Nevidio</li>
+        <li>J9 - Route Podgorica</li>
+        <li>J10 - Vol retour</li>
+      </ul>
+    </div>
+
+    <h2>Budget par personne</h2>
+    <div class="budgets-2col">
+      <div class="budget-table">
+        <h4>Option 1 — Mer + Montagne</h4>
+        <table>
+          <tr><td>Vol Charleroi-Podgorica A/R</td><td>150€</td></tr>
+          <tr><td>Logement (villa Kotor + Zabljak + Budva)</td><td>224€</td></tr>
+          <tr><td>Voiture 9j + essence</td><td>93€</td></tr>
+          <tr><td>Food 15€/j x 10</td><td>150€</td></tr>
+          <tr><td>Activités</td><td>165€</td></tr>
+          <tr><td>Divers</td><td>50€</td></tr>
+          <tr class="total"><td>TOTAL</td><td>832€</td></tr>
+          <tr class="margin"><td>Marge sur 1500€</td><td>+668€</td></tr>
+        </table>
+      </div>
+      <div class="budget-table">
+        <h4>Option 2 — Tout montagne</h4>
+        <table>
+          <tr><td>Vol Charleroi-Podgorica</td><td>150€</td></tr>
+          <tr><td>Logement (Kotor 2n + Durmitor 5n + Podgorica 1n)</td><td>180€</td></tr>
+          <tr><td>Voiture + essence</td><td>93€</td></tr>
+          <tr><td>Food</td><td>150€</td></tr>
+          <tr><td>Activités (rafting + canyoning + boat)</td><td>150€</td></tr>
+          <tr><td>Divers</td><td>50€</td></tr>
+          <tr class="total"><td>TOTAL</td><td>773€</td></tr>
+          <tr class="margin"><td>Marge sur 1500€</td><td>+727€</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <h2>Le pour</h2>
+    <div class="pour-list">
+      <ul>
+        <li>Diversité paysagère insane : fjord + canyon + alpin + mer + lac, dans un pays plus petit que la Bretagne.</li>
+        <li>Budget OK (773-832€/pers), marge confortable.</li>
+        <li>Pays jamais vu par les 4.</li>
+        <li>Rafting Tara = activité unique (un des 3 endroits au monde où on raft le canyon le plus profond d'Europe).</li>
+        <li>Vol direct Ryanair Charleroi-Podgorica 3h, 150€ A/R.</li>
+        <li>Distances courtes, voiture facile.</li>
+      </ul>
+    </div>
+
+    <h2>Logements suggérés</h2>
+    <div class="lodgings-list">
+      <div class="lodging-row"><div class="lodging-location">Bay of Kotor</div><div class="lodging-name">TOP-APARTMENT Kumbor (120m², piscine privée, terrasse mer)</div><div class="lodging-price">110–140€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Zabljak</div><div class="lodging-name">Guesthouse Durmitor Magic ou A Frame Houses ANS</div><div class="lodging-price">60–90€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Budva</div><div class="lodging-name">Airbnb vieille ville bord plage</div><div class="lodging-price">75–95€/n</div></div>
+    </div>
+
+    <h2>Activités sport</h2>
+    <div class="activities-grid">
+      <div class="activity-card"><span class="emoji">🚣</span><h5>Rafting Tara</h5><div class="activity-price">60€/pers · journée</div></div>
+      <div class="activity-card"><span class="emoji">🧗</span><h5>Canyoning Nevidio</h5><div class="activity-price">60€/pers</div></div>
+      <div class="activity-card"><span class="emoji">⛰️</span><h5>Bobotov Kuk 2522m</h5><div class="activity-price">Gratis · 9h</div></div>
+      <div class="activity-card"><span class="emoji">🛥️</span><h5>Boat Bay of Kotor</h5><div class="activity-price">30€/pers</div></div>
+      <div class="activity-card"><span class="emoji">🤿</span><h5>Plongée épaves</h5><div class="activity-price">50€/pers</div></div>
+      <div class="activity-card"><span class="emoji">🥩</span><h5>Jambon Njegusi</h5><div class="activity-price">15€ déj</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== MADÈRE ===================== -->
+<div class="dest-page" id="dest-madere" style="--c: var(--c-mad)">
+  <div class="dest-hero">
+    <div class="hero-img" style="background-image: url('https://commons.wikimedia.org/wiki/Special:FilePath/Bergwelt%20am%20Pico%20Ruivo%2C%20Madeira%20II.jpg?width=1800')"></div>
+    <div class="dest-hero-inner">
+      <button class="back-btn" onclick="showView('home')">← Retour</button>
+      <div class="hero-tier">Tier S · Atlantique</div>
+      <h1>MADÈRE</h1>
+      <p class="pitch">Climat éternel printemps. Pendant que la France crève à 38°C en août, Madère affiche 22-25°C calé par l'Atlantique. Officiellement c'est la destination préférée des retraités britanniques en croisière. Du coup vous y débarquez à 21 ans, on retourne le game. Au programme : Pico Ruivo 1862m (le trek le plus photographié du Portugal), levadas (2000km de sentiers le long de canaux d'irrigation), surf international à Jardim do Mar, piscines naturelles basaltiques à Porto Moniz.</p>
+    </div>
+  </div>
+  <div class="dest-body">
+
+    <h2>Itinéraire Option 1 — Base posée sud (le brief parfait)</h2>
+    <p class="section-intro-text">L'option qui colle 100% au brief "base posée 4-5 jours, le reste day trip" : UNE SEULE villa piscine pendant 7 jours dans le sud-ouest.</p>
+
+    <div class="flight-card">
+      <strong>Paris Orly</strong> <span class="arrow">→</span> <strong>Funchal</strong> <span class="meta">· vol direct 3h45</span>
+    </div>
+
+    <div class="trip-map">
+      <div class="trip-route">
+        <div class="trip-stop start"><strong>Paris Orly ✈</strong></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Calheta</strong><small>7 nuits</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop start"><strong>Paris Orly ✈</strong></div>
+      </div>
+    </div>
+
+    <div class="stage stage--feature">
+      <div class="stage-side" style="grid-row: 1">
+        <h3 class="stage-title">Calheta · 7 nuits villa piscine</h3>
+        <div class="stage-nights">Sud-ouest · 1 seul logement</div>
+        <p class="stage-intro">Calheta = côte sud-ouest, climat le plus stable de l'île, plage de sable doré (importé du Sahara dans les années 2000, oui), marina, restos poisson. Villa piscine infinity privée comme base. Tous les jours = day trips ailleurs sur l'île, on rentre dormir au même endroit.</p>
+      </div>
+      <div class="photos-mosaic photos-mosaic--strip" style="grid-row: 2">
+        <div class="photo"><img src="https://plus.unsplash.com/premium_photo-1690451118846-dcc19acf8545?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Villa piscine vue mer</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1585308057198-67070eb477d2?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Pico Ruivo sunrise</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1583149090851-2b5e18615649?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Porto Moniz piscines</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1510739628590-0c601822e0a0?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Levada laurifère</span></div>
+      </div>
+      <div class="days-list" style="grid-row: 3; grid-template-columns: 1fr 1fr; display: grid; gap: 0 22px;">
+        <div class="day-compact"><div class="day-tag">J1<small>vol</small></div><div class="day-compact-content"><h5>Orly → Funchal + Calheta</h5><p>Arrivée midi, route 1h ouest, check-in villa.</p></div></div>
+        <div class="day-compact"><div class="day-tag">J2<small>capitale</small></div><div class="day-compact-content"><h5>Funchal + Cabo Girão</h5><p>Vieille ville Zona Velha, sky walk 580m transparent au-dessus du vide.</p></div></div>
+        <div class="day-compact"><div class="day-tag">J3<small>trek</small></div><div class="day-compact-content"><h5>Pico Ruivo via Pico Arieiro</h5><p>LE trek. 8h, 1862m, mer de nuages.</p></div></div>
+        <div class="day-compact"><div class="day-tag">J4<small>chill</small></div><div class="day-compact-content"><h5>Repos villa + plage</h5><p>Piscine, sable doré, surf intermédiaire.</p></div></div>
+        <div class="day-compact"><div class="day-tag">J5<small>levada</small></div><div class="day-compact-content"><h5>Levada do Caldeirão Verde</h5><p>13km easy dans forêt laurifère UNESCO.</p></div></div>
+        <div class="day-compact"><div class="day-tag">J6<small>boat</small></div><div class="day-compact-content"><h5>Boat dauphins/baleines</h5><p>Sortie 4h depuis Funchal, 30€/pers.</p></div></div>
+        <div class="day-compact"><div class="day-tag">J7<small>canyon</small></div><div class="day-compact-content"><h5>Canyoning Ribeira das Cales</h5><p>75€/pers. Rappels + sauts.</p></div></div>
+        <div class="day-compact"><div class="day-tag">J8<small>nord</small></div><div class="day-compact-content"><h5>Porto Moniz + Fanal</h5><p>Piscines naturelles basaltiques + forêt enchantée.</p></div></div>
+        <div class="day-compact"><div class="day-tag">J9<small>surf</small></div><div class="day-compact-content"><h5>Surf Jardim do Mar</h5><p>Spot international, leçon 50€/pers.</p></div></div>
+        <div class="day-compact"><div class="day-tag">J10<small>vol</small></div><div class="day-compact-content"><h5>Funchal → Orly</h5><p>Vol matin.</p></div></div>
+      </div>
+    </div>
+
+    <h2>Variante Option 2 — Tour intégral road trip</h2>
+    <p class="section-intro-text">Pour voir toute l'île : 3 spots différents (Funchal sud-est, Calheta sud-ouest, Porto Moniz nord-ouest) au lieu d'une base unique.</p>
+
+    <div class="option-teaser">
+      <h3>Funchal (2n) → Calheta (3n) → Porto Moniz (3n) → Funchal (1n)</h3>
+      <p>Mêmes activités mais on dort plus près des spots → moins de route depuis Calheta.</p>
+    </div>
+
+    <h2>Budget par personne</h2>
+    <div class="budget-table">
+      <table>
+        <tr><td>Vol Orly-Funchal direct A/R Transavia</td><td>150€</td></tr>
+        <tr><td>Villa piscine Calheta 7n 150€/n ÷4</td><td>262€</td></tr>
+        <tr><td>Voiture 9j + essence</td><td>99€</td></tr>
+        <tr><td>Food 18€/j x 10</td><td>180€</td></tr>
+        <tr><td>Activités (canyoning + surf + boat + sentiers)</td><td>170€</td></tr>
+        <tr><td>Divers (téléphérique, parkings)</td><td>50€</td></tr>
+        <tr class="total"><td>TOTAL</td><td>911€</td></tr>
+        <tr class="margin"><td>Marge sur 1500€</td><td>+589€</td></tr>
+      </table>
+    </div>
+
+    <h2>Le pour</h2>
+    <div class="pour-list">
+      <ul>
+        <li>Base posée 7 jours villa piscine = le brief PARFAIT.</li>
+        <li>Climat le plus doux de la shortlist (22-25°C), zéro canicule.</li>
+        <li>Vol court 3h45 direct depuis Paris, pas cher (150€).</li>
+        <li>Combo trek + canyoning + surf + chill ultime.</li>
+        <li>Île unique = pas de transport interne lourd.</li>
+        <li>Sécurité 5/5 (Portugal), English/French OK partout.</li>
+        <li>Pico Ruivo = un des treks les plus photogéniques d'Europe.</li>
+      </ul>
+    </div>
+
+    <h2>Logements suggérés</h2>
+    <div class="lodgings-list">
+      <div class="lodging-row"><div class="lodging-location">Calheta</div><div class="lodging-name">Villa moderne piscine infinity chauffée vue mer</div><div class="lodging-price">130–180€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Funchal centre</div><div class="lodging-name">Beach front design home Zona Velha avec piscine</div><div class="lodging-price">90–130€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Porto Moniz</div><div class="lodging-name">Porto Moniz Atlantic View (3 chambres)</div><div class="lodging-price">85–110€/n</div></div>
+    </div>
+
+    <h2>Activités sport</h2>
+    <div class="activities-grid">
+      <div class="activity-card"><span class="emoji">🥾</span><h5>Pico Ruivo 1862m</h5><div class="activity-price">8€ permis · 8h</div></div>
+      <div class="activity-card"><span class="emoji">🌿</span><h5>Levada Caldeirão Verde</h5><div class="activity-price">3€ · 4h easy</div></div>
+      <div class="activity-card"><span class="emoji">🏞️</span><h5>Canyoning Lvl 1</h5><div class="activity-price">75€/pers</div></div>
+      <div class="activity-card"><span class="emoji">🏄</span><h5>Surf Jardim do Mar</h5><div class="activity-price">50€ leçon</div></div>
+      <div class="activity-card"><span class="emoji">🪂</span><h5>Parapente Madalena</h5><div class="activity-price">165€/pers</div></div>
+      <div class="activity-card"><span class="emoji">🐬</span><h5>Boat dauphins/baleines</h5><div class="activity-price">30€/pers</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== BOSNIE ===================== -->
+<div class="dest-page" id="dest-bosnie" style="--c: var(--c-bos)">
+  <div class="dest-hero">
+    <div class="hero-img" style="background-image: url('https://images.unsplash.com/photo-1689019345483-4f847b92e5e3?w=1800')"></div>
+    <div class="dest-hero-inner">
+      <button class="back-btn" onclick="showView('home')">← Retour</button>
+      <div class="hero-tier">Tier A · Balkans</div>
+      <h1>BOSNIE</h1>
+      <p class="pitch">À Sarajevo, dans un rayon de 200 mètres, tu trouves une mosquée, une cathédrale catholique, une cathédrale orthodoxe et une synagogue. Le café bosanska kafa coûte 1€. Le pays a 20km de côte (à Neum) impossible à exploiter touristiquement, donc on reste à l'intérieur : Sarajevo + Mostar (le pont Stari Most où des gars sautent depuis 1664 dans la Neretva, 24m) + rafting Una émeraude.</p>
+    </div>
+  </div>
+  <div class="dest-body">
+
+    <div class="flight-card">
+      <strong>Paris</strong> <span class="arrow">→</span> <strong>Sarajevo</strong> <span class="meta">· vol 3h</span>
+    </div>
+
+    <div class="trip-map">
+      <div class="trip-route">
+        <div class="trip-stop start"><strong>Paris ✈</strong></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Sarajevo</strong><small>3 nuits</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Mostar</strong><small>3 nuits</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Bihać</strong><small>2 nuits</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Sarajevo</strong><small>1 nuit</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop start"><strong>Paris ✈</strong></div>
+      </div>
+    </div>
+
+    <div class="stage stage--right">
+      <div class="stage-side">
+        <h3 class="stage-title">Sarajevo</h3>
+        <div class="stage-nights">3 nuits · capitale</div>
+        <p class="stage-intro">Baščaršija ottoman = quartier-bazar du 15ème siècle. Tunnel of Hope (800m creusé à la main sous l'aéroport pendant le siège de 92-95, ouvert au public). Day trip rafting Neretva à Konjic + Tito's bunker D-0 ARK (le bunker nucléaire personnel de Tito, ouvert en 2011, devenu musée d'art contemporain absurde).</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J1</div><div class="day-compact-content"><h5>Vol Paris → Sarajevo</h5><p>Baščaršija, premier ćevapi (5€ la portion de 10).</p></div></div>
+          <div class="day-compact"><div class="day-tag">J2</div><div class="day-compact-content"><h5>Sarajevo</h5><p>Tunnel of Hope, War Childhood Museum, sunset Žuta Tabija.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J3</div><div class="day-compact-content"><h5>Rafting Neretva + bunker Tito</h5><p>50€/pers + visite D-0 ARK.</p></div></div>
+        </div>
+      </div>
+      <div class="photos-mosaic photos-mosaic--2x2">
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sarajevo.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Sarajevo</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ba%C5%A1%C4%8Dar%C5%A1ija%202006.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Baščaršija</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sarajevo%20%28night%29.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Sarajevo nuit</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/View%20on%20Sarajevo%20from%20Vi%C5%A1njik%2C%202023.01.23%201.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Vue Višnjik</span></div>
+      </div>
+    </div>
+
+    <div class="stage stage--left">
+      <div class="photos-mosaic photos-mosaic--mix">
+        <div class="photo"><img src="https://images.unsplash.com/photo-1689019345483-4f847b92e5e3?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Stari Most</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1569086038412-d20a387dffc1?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Mostar & Neretva</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Blagaj%20panorama%2002.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Tekija Blagaj</span></div>
+      </div>
+      <div class="stage-side">
+        <h3 class="stage-title">Mostar</h3>
+        <div class="stage-nights">3 nuits</div>
+        <p class="stage-intro">Stari Most, pont ottoman UNESCO. Tradition de saut depuis le pont dans la Neretva depuis 1664 (24m de haut, eau verte à 12°C). Avec un coach et 30€, tu peux le faire. Day trip cascades Kravica (baignade) + monastère soufi de Blagaj contre une falaise au-dessus de la rivière Buna.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J4</div><div class="day-compact-content"><h5>Sarajevo → Mostar (2h30)</h5><p>Stop truite Jablanica, arrivée Mostar sunset Stari Most.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J5</div><div class="day-compact-content"><h5>Stari Most + saut 24m</h5><p>Plongeon avec coach (30€), bazar Kujundžiluk.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J6</div><div class="day-compact-content"><h5>Kravica + Blagaj</h5><p>Cascades 25m + monastère soufi falaise.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage stage--right">
+      <div class="stage-side">
+        <h3 class="stage-title">Bihać · Una NP</h3>
+        <div class="stage-nights">2 nuits · nord-ouest</div>
+        <p class="stage-intro">Rivière émeraude (calcaire dissous), parc national Una. Le rafting Una est moins connu que celui de Tara mais l'eau est turquoise saturée, paysages magnifiques. 50€/pers la journée.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J7</div><div class="day-compact-content"><h5>Route Bihać (4h via Jajce)</h5><p>Stop Jajce, unique ville d'Europe avec cascade en centre-ville.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J8</div><div class="day-compact-content"><h5>RAFTING UNA RIVER</h5><p>50€/pers, eau émeraude saturée.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J9-10</div><div class="day-compact-content"><h5>Retour Sarajevo + vol</h5><p>4h route, dernière soirée, vol J10.</p></div></div>
+        </div>
+      </div>
+      <div class="photos-mosaic photos-mosaic--big-small">
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/%C5%A0trba%C4%8Dki%20buk%201.jpg?width=1200" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Štrbački buk</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Nationalpark%20Una%2001.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Una NP</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Nationalpark%20Una%2004.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Una cascade</span></div>
+      </div>
+    </div>
+
+    <h2>Budget par personne</h2>
+    <div class="budget-table">
+      <table>
+        <tr><td>Vol Paris-Sarajevo direct A/R Transavia août</td><td>300€</td></tr>
+        <tr><td>Logement (Sarajevo + Mostar + Bihać + airport)</td><td>140€</td></tr>
+        <tr><td>Voiture 9j + essence</td><td>80€</td></tr>
+        <tr><td>Food 13€/j x 10 (ćevapi 5€, pita 3€)</td><td>130€</td></tr>
+        <tr><td>Activités (2 rafting + plongeon Mostar + Kravica)</td><td>140€</td></tr>
+        <tr><td>Divers</td><td>40€</td></tr>
+        <tr class="total"><td>TOTAL</td><td>830€</td></tr>
+        <tr class="margin"><td>Marge sur 1500€</td><td>+670€</td></tr>
+      </table>
+    </div>
+
+    <h2>Le pour</h2>
+    <div class="pour-list">
+      <ul>
+        <li>Pays jamais vu par les 4.</li>
+        <li>Food balkanique culte + ottoman.</li>
+        <li>2 rafting au choix : Neretva (depuis Sarajevo) et Una (émeraude).</li>
+        <li>Histoire dense : carrefour ottoman/austro-hongrois + récit 90s.</li>
+        <li>Café à 1€ partout, repas 5-10€.</li>
+        <li>Vol direct 3h Paris-Sarajevo Transavia.</li>
+      </ul>
+    </div>
+
+    <h2>Logements suggérés</h2>
+    <div class="lodgings-list">
+      <div class="lodging-row"><div class="lodging-location">Sarajevo</div><div class="lodging-name">Airbnb old town (Baščaršija)</div><div class="lodging-price">50–70€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Mostar</div><div class="lodging-name">Airbnb centre près du pont</div><div class="lodging-price">45–60€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Bihać</div><div class="lodging-name">Guesthouse Una River</div><div class="lodging-price">40–55€/n</div></div>
+    </div>
+
+    <h2>Activités sport</h2>
+    <div class="activities-grid">
+      <div class="activity-card"><span class="emoji">🚣</span><h5>Rafting Una</h5><div class="activity-price">50€/pers · journée</div></div>
+      <div class="activity-card"><span class="emoji">🚣</span><h5>Rafting Neretva</h5><div class="activity-price">50€/pers</div></div>
+      <div class="activity-card"><span class="emoji">🤸</span><h5>Saut Stari Most 24m</h5><div class="activity-price">30€ avec coach</div></div>
+      <div class="activity-card"><span class="emoji">💦</span><h5>Cascades Kravica</h5><div class="activity-price">8€ entrée</div></div>
+      <div class="activity-card"><span class="emoji">🥾</span><h5>Trek Sutjeska NP</h5><div class="activity-price">Gratuit</div></div>
+      <div class="activity-card"><span class="emoji">☕</span><h5>Bosanska kafa</h5><div class="activity-price">1€/tasse</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== AÇORES ===================== -->
+<div class="dest-page" id="dest-acores" style="--c: var(--c-azo)">
+  <div class="dest-hero">
+    <div class="hero-img" style="background-image: url('https://commons.wikimedia.org/wiki/Special:FilePath/Lagoa%20das%20Sete%20Cidades3.jpg?width=1800')"></div>
+    <div class="dest-hero-inner">
+      <button class="back-btn" onclick="showView('home')">← Retour</button>
+      <div class="hero-tier">Tier A · Atlantique</div>
+      <h1>AÇORES</h1>
+      <p class="pitch">Au milieu de l'Atlantique Nord, à 1500km du Portugal continental, 9 îles volcaniques. 25 espèces de baleines croisent par là (cachalots, baleines bleues, rorquals — pas juste des dauphins). À Furnas, on cuit le déjeuner pendant 6 heures dans un trou volcanique : la planète fait la cuisson. Caveat : budget tendu, marge seulement +357€/pers.</p>
+    </div>
+  </div>
+  <div class="dest-body">
+
+    <div class="flight-card">
+      <strong>Paris CDG</strong> <span class="arrow">→</span> <strong>Ponta Delgada</strong> <span class="meta">· vol direct 3h45</span>
+    </div>
+
+    <div class="trip-map">
+      <div class="trip-route">
+        <div class="trip-stop start"><strong>CDG ✈</strong></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>São Miguel</strong><small>6 nuits</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Pico</strong><small>3 nuits</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop start"><strong>CDG ✈</strong></div>
+      </div>
+    </div>
+
+    <div class="stage stage--right">
+      <div class="stage-side">
+        <h3 class="stage-title">São Miguel</h3>
+        <div class="stage-nights">6 nuits · base Ribeira Grande</div>
+        <p class="stage-intro">L'île principale. Sete Cidades = deux lacs jumeaux vert et bleu dans des cratères (légende du berger et de la princesse interdits d'amour qui ont pleuré). Furnas = village au-dessus de geysers, cuisson volcanique des cozidos, spa Terra Nostra Park (eau jaune ferrugineuse). Whale watching depuis Ponta Delgada. Surf à Santa Bárbara.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J1<small>vol</small></div><div class="day-compact-content"><h5>CDG → Ponta Delgada</h5><p>Route Ribeira Grande, plage Santa Bárbara coucher de soleil.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J2<small>cratères</small></div><div class="day-compact-content"><h5>Sete Cidades trek</h5><p>Boucle Lagoa Verde/Azul (10km).</p></div></div>
+          <div class="day-compact"><div class="day-tag">J3<small>baleines</small></div><div class="day-compact-content"><h5>Whale watching</h5><p>Sortie 3h30 ~80€/pers, 25 espèces.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J4<small>trek</small></div><div class="day-compact-content"><h5>Lagoa do Fogo + thermes</h5><p>Trek 6h cratère caché + bain rivière thermale 36°C.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J5<small>furnas</small></div><div class="day-compact-content"><h5>Furnas — déjeuner volcanique</h5><p>Cozido enterré 6h dans le sol + spa Terra Nostra.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J6<small>surf</small></div><div class="day-compact-content"><h5>Surf Santa Bárbara</h5><p>Leçon 50€/pers.</p></div></div>
+        </div>
+      </div>
+      <div class="photos-mosaic photos-mosaic--mix">
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Lagoa%20das%20Sete%20Cidades3.jpg?width=1200" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Sete Cidades</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1673282838976-a968403bce86?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Terra Nostra eau jaune</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sao%20Miguel%20-%20Lagoa%20do%20Fogo.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Lagoa do Fogo</span></div>
+      </div>
+    </div>
+
+    <div class="stage stage--left">
+      <div class="photos-mosaic photos-mosaic--2x2">
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Picocanal.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Volcan Pico</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Acesso_%C3%A0_Lagoa_do_Capit%C3%A3o_-_Ilha_do_Pico_-_Portugal_%F0%9F%87%B5%F0%9F%87%B9_%2853944782118%29.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Lagoa do Capitão</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Cabe%C3%A7a_do_Cachorro_-_Ilha_do_Pico_-_Portugal_%F0%9F%87%B5%F0%9F%87%B9_%2853937441446%29.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Côte Pico</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Altamora_-_Ilha_do_Pico_-_Portugal_%F0%9F%87%B5%F0%9F%87%B9_%2853931254085%29.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Altamora</span></div>
+      </div>
+      <div class="stage-side">
+        <h3 class="stage-title">Pico</h3>
+        <div class="stage-nights">3 nuits · île volcan</div>
+        <p class="stage-intro">Point culminant du Portugal : 2351m, plus haut que tout le continent. Ascension en 5h dans des coulées de lave figées, sunrise au sommet possible (ascension de nuit). Vignobles UNESCO en mosaïque de murs de lave noirs.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J7<small>vol</small></div><div class="day-compact-content"><h5>Vol intérieur PDL → Pico (30 min)</h5><p>Arrivée Madalena face au volcan.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J8<small>volcan</small></div><div class="day-compact-content"><h5>Trek Pico 2351m</h5><p>5h ascension dans coulées de lave figées.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J9<small>vignes</small></div><div class="day-compact-content"><h5>Vignobles UNESCO + plongée</h5><p>Murs de lave + plongée Atlantique.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J10<small>vol</small></div><div class="day-compact-content"><h5>Vol Pico → PDL → Paris</h5><p>2 vols.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Budget par personne</h2>
+    <div class="budget-table">
+      <table>
+        <tr><td>Vol Paris-PDL direct A/R SATA</td><td>200€</td></tr>
+        <tr><td>Vol intérieur PDL-Pico A/R</td><td>80€</td></tr>
+        <tr><td>Logement (villa SM 6n + cottage Pico 3n)</td><td>248€</td></tr>
+        <tr><td>Voiture (SM 6j + Pico 3j)</td><td>95€</td></tr>
+        <tr><td>Food 20€/j x 10</td><td>200€</td></tr>
+        <tr><td>Activités (baleines + surf + Furnas + parapente + plongée)</td><td>270€</td></tr>
+        <tr><td>Divers</td><td>50€</td></tr>
+        <tr class="total"><td>TOTAL</td><td>1143€</td></tr>
+        <tr class="margin"><td>Marge sur 1500€ — la plus serrée de la shortlist</td><td>+357€</td></tr>
+      </table>
+    </div>
+
+    <h2>Le pour</h2>
+    <div class="pour-list">
+      <ul>
+        <li>Vol direct court 3h45 depuis Paris CDG.</li>
+        <li>Climat le plus stable et doux : 22-25°C, ZÉRO canicule.</li>
+        <li>Base posée 6 jours sur São Miguel.</li>
+        <li>Pays jamais vu par les 4.</li>
+        <li>Activités uniques au monde : whale watching, déjeuner cuit au volcan, vignobles murs de lave.</li>
+        <li>Pico = point culminant du Portugal.</li>
+        <li>Sécurité 5/5 (Portugal).</li>
+      </ul>
+    </div>
+
+    <h2>Logements suggérés</h2>
+    <div class="lodgings-list">
+      <div class="lodging-row"><div class="lodging-location">Ribeira Grande</div><div class="lodging-name">Villa piscine Quinta do Passo ou similaire</div><div class="lodging-price">110–140€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Pico Madalena</div><div class="lodging-name">Cottage vue volcan</div><div class="lodging-price">80–100€/n</div></div>
+    </div>
+
+    <h2>Activités sport</h2>
+    <div class="activities-grid">
+      <div class="activity-card"><span class="emoji">🌋</span><h5>Trek Pico 2351m</h5><div class="activity-price">25€/pers · 5h</div></div>
+      <div class="activity-card"><span class="emoji">🐋</span><h5>Whale watching</h5><div class="activity-price">80€/pers</div></div>
+      <div class="activity-card"><span class="emoji">🏄</span><h5>Surf Santa Bárbara</h5><div class="activity-price">50€ leçon</div></div>
+      <div class="activity-card"><span class="emoji">♨️</span><h5>Thermes Furnas</h5><div class="activity-price">8€ entrée</div></div>
+      <div class="activity-card"><span class="emoji">🪂</span><h5>Parapente Sete Cidades</h5><div class="activity-price">80€/pers</div></div>
+      <div class="activity-card"><span class="emoji">🤿</span><h5>Plongée Atlantique</h5><div class="activity-price">50€/pers</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SLOVÉNIE ===================== -->
+<div class="dest-page" id="dest-slovenie" style="--c: var(--c-slo)">
+  <div class="dest-hero">
+    <div class="hero-img" style="background-image: url('https://images.unsplash.com/photo-1756394378625-9e5303619d6f?w=1800')"></div>
+    <div class="dest-hero-inner">
+      <button class="back-btn" onclick="showView('home')">← Retour</button>
+      <div class="hero-tier">Tier A · Alpes</div>
+      <h1>SLOVÉNIE</h1>
+      <p class="pitch">2 millions d'habitants. Le tour complet du pays = 515km. Petit-déj à Ljubljana, rando à Bled à midi, rafting Soča l'après-midi, verre à Piran en bord d'Adriatique le soir. La rivière Soča est vert fluo à cause de la poudre calcaire en suspension : c'est pas un filtre Insta, c'est juste comme ça.</p>
+    </div>
+  </div>
+  <div class="dest-body">
+
+    <div class="flight-card">
+      <strong>Paris</strong> <span class="arrow">→</span> <strong>Venise</strong> <span class="meta">· vol 1h45 + voiture 2h30 vers Slovénie</span>
+    </div>
+
+    <div class="trip-map">
+      <div class="trip-route">
+        <div class="trip-stop start"><strong>Paris ✈</strong></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Venise</strong></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Ljubljana</strong><small>1 nuit</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Bled</strong><small>2 nuits</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Bovec</strong><small>3 nuits</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Piran</strong><small>2 nuits</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Ljubljana</strong><small>1 nuit</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop start"><strong>Venise ✈ Paris</strong></div>
+      </div>
+    </div>
+
+    <div class="stage stage--right">
+      <div class="stage-side">
+        <h3 class="stage-title">Ljubljana + Bled</h3>
+        <div class="stage-nights">3 nuits · capitale & lac</div>
+        <p class="stage-intro">Ljubljana = capitale piétonne (centre interdit aux voitures depuis 2007). Bled = lac avec une île centrale + château perché, la photo iconique de l'Europe centrale. Vintgar Gorge à 10min avec ses passerelles en bois suspendues au-dessus de l'eau.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J1</div><div class="day-compact-content"><h5>Paris → Venise + route Ljubljana</h5><p>Vol + voiture loc + arrivée capitale soir.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J2</div><div class="day-compact-content"><h5>Ljubljana + Bled (1h)</h5><p>Capitale matin, château Bled, soirée lac.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J3</div><div class="day-compact-content"><h5>Vintgar + île Bled</h5><p>Gorge passerelles 4h + tour île à la rame.</p></div></div>
+        </div>
+      </div>
+      <div class="photos-mosaic photos-mosaic--mix">
+        <div class="photo"><img src="https://images.unsplash.com/photo-1756394378625-9e5303619d6f?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Bled montgolfière sunrise</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1610054214460-0b9b785650ff?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Vintgar passerelles</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1660342831703-f27ab3f32278?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Île Bled sunrise</span></div>
+      </div>
+    </div>
+
+    <div class="stage stage--left">
+      <div class="photos-mosaic photos-mosaic--2x2">
+        <div class="photo"><img src="https://images.unsplash.com/photo-1672657334668-17f107c06a33?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Soča eau émeraude</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1599129194878-aae4bd2b779d?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Soča gorge</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1658408212092-ea56d26e5257?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Plage rivière Soča</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Triglav.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Triglav 2864m</span></div>
+      </div>
+      <div class="stage-side">
+        <h3 class="stage-title">Bovec · Vallée Soča</h3>
+        <div class="stage-nights">3 nuits · paradis eau vive</div>
+        <p class="stage-intro">La Soča est vert fluo (calcaire en suspension). Rafting 25km descente niveau 3-4. Canyoning Sušec très technique. Le col Vršič pour y accéder : 50 virages numérotés en épingle, l'un des plus beaux des Alpes Juliennes.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J4</div><div class="day-compact-content"><h5>Col Vršič → Bovec (3h)</h5><p>50 virages en épingle.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J5</div><div class="day-compact-content"><h5>RAFTING SOČA</h5><p>60€/pers, 25km descente.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J6</div><div class="day-compact-content"><h5>Canyoning Sušec</h5><p>60€/pers technique. Option Triglav 2864m 2j refuge.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage stage--right">
+      <div class="stage-side">
+        <h3 class="stage-title">Piran</h3>
+        <div class="stage-nights">2 nuits · côte Adriatique</div>
+        <p class="stage-intro">La Slovénie a 46km de côte total. Piran est la vieille ville vénitienne, presqu'île dans l'Adriatique. Sur le retour : grottes de Postojna UNESCO (20km de galeries, on entre en train électrique).</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J7</div><div class="day-compact-content"><h5>Route Piran (3h)</h5><p>Arrivée côte vénitienne.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J8</div><div class="day-compact-content"><h5>Base Piran chill</h5><p>Plages, vieille ville, bateau.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J9</div><div class="day-compact-content"><h5>Postojna + Ljubljana</h5><p>Grottes UNESCO + soirée capitale.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J10</div><div class="day-compact-content"><h5>Route Venise + vol</h5><p>2h30 route + vol Paris.</p></div></div>
+        </div>
+      </div>
+      <div class="photos-mosaic photos-mosaic--big-small">
+        <div class="photo"><img src="https://images.unsplash.com/photo-1647107258382-b2d53ee778e7?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Piran presqu'île</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1663968815785-f06bf473fa38?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Postojna stalactites</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1700592196360-bb76ad2c2e92?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Postojna grotte</span></div>
+      </div>
+    </div>
+
+    <h2>Budget par personne</h2>
+    <div class="budget-table">
+      <table>
+        <tr><td>Vol Paris-Venise direct A/R easyJet</td><td>100€</td></tr>
+        <tr><td>Logement (5 spots)</td><td>170€</td></tr>
+        <tr><td>Voiture 10j + essence + péages italiens</td><td>115€</td></tr>
+        <tr><td>Food 22€/j x 10</td><td>220€</td></tr>
+        <tr><td>Activités (rafting + canyoning + grotte + Vintgar + Bled)</td><td>175€</td></tr>
+        <tr><td>Divers</td><td>50€</td></tr>
+        <tr class="total"><td>TOTAL</td><td>830€</td></tr>
+        <tr class="margin"><td>Marge sur 1500€</td><td>+670€</td></tr>
+      </table>
+    </div>
+
+    <h2>Le pour</h2>
+    <div class="pour-list">
+      <ul>
+        <li>Vol pas cher via Venise (100€).</li>
+        <li>Compact : 515km tout le tour, distances courtes.</li>
+        <li>Diversité dans peu d'espace : alpes + lacs + grottes + mer.</li>
+        <li>Rafting Soča = un des meilleurs spots d'Europe.</li>
+        <li>Sécurité 5/5 (UE).</li>
+        <li>Pays sous-coté, jamais vu par les 4.</li>
+      </ul>
+    </div>
+
+    <h2>Logements suggérés</h2>
+    <div class="lodgings-list">
+      <div class="lodging-row"><div class="lodging-location">Ljubljana</div><div class="lodging-name">Airbnb centre piéton</div><div class="lodging-price">60–80€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Bled</div><div class="lodging-name">Airbnb vue lac ou Bohinj plus tranquille</div><div class="lodging-price">90–130€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Bovec</div><div class="lodging-name">Cottage vallée Soča</div><div class="lodging-price">80–110€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Piran</div><div class="lodging-name">Apart old town vue mer</div><div class="lodging-price">85–110€/n</div></div>
+    </div>
+
+    <h2>Activités sport</h2>
+    <div class="activities-grid">
+      <div class="activity-card"><span class="emoji">🚣</span><h5>Rafting Soča</h5><div class="activity-price">60€/pers</div></div>
+      <div class="activity-card"><span class="emoji">🧗</span><h5>Canyoning Sušec</h5><div class="activity-price">60€/pers</div></div>
+      <div class="activity-card"><span class="emoji">⛰️</span><h5>Triglav 2864m</h5><div class="activity-price">150€ guide · 2j</div></div>
+      <div class="activity-card"><span class="emoji">🥾</span><h5>Vintgar gorge</h5><div class="activity-price">8€ · 4h</div></div>
+      <div class="activity-card"><span class="emoji">🚤</span><h5>Île Bled rame</h5><div class="activity-price">15€/pers</div></div>
+      <div class="activity-card"><span class="emoji">🦇</span><h5>Postojna grotte</h5><div class="activity-price">30€/pers</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== MAROC ===================== -->
+<div class="dest-page" id="dest-maroc" style="--c: var(--c-mar)">
+  <div class="dest-hero">
+    <div class="hero-img" style="background-image: url('https://images.unsplash.com/photo-1611859836043-a9177f500a27?w=1800')"></div>
+    <div class="dest-hero-inner">
+      <button class="back-btn" onclick="showView('home')">← Retour</button>
+      <div class="hero-tier">Tier A · Afrique du Nord</div>
+      <h1>MAROC</h1>
+      <p class="pitch">Marrakech en août c'est 42°C dans la médina. C'est plus une visite, c'est une performance. Donc on contourne : on atterrit à Agadir, on file à Taghazout (capitale surf Atlantique, eau 25°C parce que l'océan régule), on enchaîne sur l'Atlas pour grimper le Toubkal 4167m (sommet d'Afrique du Nord, ascension en 2 jours depuis un parking), et on finit par 24h à Marrakech avant le vol.</p>
+    </div>
+  </div>
+  <div class="dest-body">
+
+    <div class="flight-card">
+      <strong>Paris</strong> <span class="arrow">→</span> <strong>Agadir</strong> <span class="meta">· vol direct 3h</span> &nbsp;|&nbsp; <strong>Marrakech</strong> <span class="arrow">→</span> <strong>Paris</strong> <span class="meta">· vol direct 3h30</span>
+    </div>
+
+    <div class="trip-map">
+      <div class="trip-route">
+        <div class="trip-stop start"><strong>Paris ✈</strong></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Taghazout</strong><small>5 nuits</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Imlil</strong><small>2 nuits</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Refuge Toubkal</strong><small>1 nuit</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Marrakech</strong><small>1 nuit</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop start"><strong>Paris ✈</strong></div>
+      </div>
+    </div>
+
+    <div class="stage stage--right">
+      <div class="stage-side">
+        <h3 class="stage-title">Taghazout</h3>
+        <div class="stage-nights">5 nuits · capitale surf Maroc</div>
+        <p class="stage-intro">Petit village pêcheur devenu spot surf international. Waves quotidiennes, écoles partout, ambiance Hossegor sans Hossegor. Eau Atlantique 25°C en août (l'océan compense la chaleur). Day trip Paradise Valley (vallée luxuriante avec piscines naturelles) + Essaouira UNESCO (médina venteuse).</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J1<small>vol</small></div><div class="day-compact-content"><h5>Paris → Agadir + Taghazout (30min)</h5><p>Premier surf au sunset.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J2-3<small>surf</small></div><div class="day-compact-content"><h5>Surf intensif + Paradise Valley</h5><p>Cours surf 4j + vallée piscines naturelles.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J4<small>excursion</small></div><div class="day-compact-content"><h5>Essaouira (2h route)</h5><p>Médina UNESCO, poisson grillé port bleu.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J5<small>chill</small></div><div class="day-compact-content"><h5>Repos surf camp</h5><p>Yoga/SUP, dernier surf avant Atlas.</p></div></div>
+        </div>
+      </div>
+      <div class="photos-mosaic photos-mosaic--mix">
+        <div class="photo"><img src="https://plus.unsplash.com/premium_photo-1699557066867-8f67faabfcea?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Spot surf Taghazout</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1697145808130-dfc61fcdf820?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Côte Atlantique</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1555686367-56d5186965d5?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Port Essaouira</span></div>
+      </div>
+    </div>
+
+    <div class="stage stage--left">
+      <div class="photos-mosaic photos-mosaic--2x2">
+        <div class="photo"><img src="https://images.unsplash.com/photo-1611859836043-a9177f500a27?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Toubkal 4167m</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1738412349443-359e6935422d?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Atlas Maroc</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Commune%20Imlil%20entrance.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Imlil village</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/At%20the%20peak%20of%20Toubkal%204%2C167%20m%20%282%29.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Sommet Toubkal</span></div>
+      </div>
+      <div class="stage-side">
+        <h3 class="stage-title">Atlas · Toubkal</h3>
+        <div class="stage-nights">3 nuits · sommet AFN</div>
+        <p class="stage-intro">Toubkal 4167m = point culminant de toute l'Afrique du Nord. Ascension en 2 jours depuis le village d'Imlil (1740m, accessible voiture). Refuge Toubkal à 3207m (dortoirs basiques, dîner berbère). Sommet pour le lever du soleil avec vue jusqu'au Sahara par temps clair.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J6<small>route</small></div><div class="day-compact-content"><h5>Taghazout → Imlil (5h)</h5><p>Via Marrakech sans s'arrêter. Guesthouse berbère.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J7<small>montée</small></div><div class="day-compact-content"><h5>Imlil → Refuge (4-5h)</h5><p>Montée 3207m, dîner Berbère.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J8<small>sommet</small></div><div class="day-compact-content"><h5>SOMMET TOUBKAL 4167m</h5><p>Lever 5h, sommet sunrise, vue Sahara. Descente afternoon.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage stage--right">
+      <div class="stage-side">
+        <h3 class="stage-title">Marrakech</h3>
+        <div class="stage-nights">1 nuit · transit médina</div>
+        <p class="stage-intro">42°C dans la médina en août, c'est un fait. Donc 24h max. Riad climatisé pour la nuit, Jemaa el-Fna le soir quand ça refroidit un peu, souks au lever du jour avant que la chaleur monte, vol matin pour Paris.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J9<small>médina</small></div><div class="day-compact-content"><h5>Imlil → Marrakech (1h30)</h5><p>Médina + Jemaa el-Fna soir + hammam riad.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J10<small>vol</small></div><div class="day-compact-content"><h5>Vol Marrakech → Paris</h5><p>Vol matin avant que la médina devienne un four.</p></div></div>
+        </div>
+      </div>
+      <div class="photos-mosaic photos-mosaic--big-small">
+        <div class="photo"><img src="https://images.unsplash.com/photo-1587974928442-77dc3e0dba72?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Jemaa el-Fna</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1569440703456-29b9c31765ca?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Médina</span></div>
+        <div class="photo"><img src="https://plus.unsplash.com/premium_photo-1699555730084-fe1bb558f07c?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Riad patio</span></div>
+      </div>
+    </div>
+
+    <h2>Budget par personne</h2>
+    <div class="budget-table">
+      <table>
+        <tr><td>Vol open-jaw Paris-Agadir + Marrakech-Paris</td><td>150€</td></tr>
+        <tr><td>Logement (surf camp + Imlil + refuge + riad)</td><td>115€</td></tr>
+        <tr><td>Voiture loc 7j + essence</td><td>90€</td></tr>
+        <tr><td>Food 15€/j x 10 (tajines 5-8€)</td><td>150€</td></tr>
+        <tr><td>Activités (surf 4j cours + guide Toubkal + hammam + Essaouira)</td><td>245€</td></tr>
+        <tr><td>Divers (pourboires, achats médina)</td><td>70€</td></tr>
+        <tr class="total"><td>TOTAL</td><td>820€</td></tr>
+        <tr class="margin"><td>Marge sur 1500€</td><td>+680€</td></tr>
+      </table>
+    </div>
+
+    <h2>Le pour</h2>
+    <div class="pour-list">
+      <ul>
+        <li>Combo surf + sommet 4000m unique au monde.</li>
+        <li>Vol pas cher : open-jaw Paris-Agadir + Marrakech-Paris à 150€ A/R.</li>
+        <li>Food culte pas chère (tajines 5-8€, brochettes, pâtisseries).</li>
+        <li>Diversité paysagère insane (océan + Atlas 4000m + médina ottoman).</li>
+        <li>Anglais correct + Français parfait dans tout le secteur tourisme.</li>
+        <li>Pays jamais visité IRL par les 4.</li>
+      </ul>
+    </div>
+
+    <h2>Logements suggérés</h2>
+    <div class="lodgings-list">
+      <div class="lodging-row"><div class="lodging-location">Taghazout</div><div class="lodging-name">Surf camp tout inclus (cours + logement + petit-déj)</div><div class="lodging-price">40€/n/pers</div></div>
+      <div class="lodging-row"><div class="lodging-location">Imlil</div><div class="lodging-name">Guesthouse berbère traditionnelle</div><div class="lodging-price">35–50€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Refuge Toubkal</div><div class="lodging-name">Refuge dortoir 3207m</div><div class="lodging-price">35€/n demi-pension</div></div>
+      <div class="lodging-row"><div class="lodging-location">Marrakech</div><div class="lodging-name">Riad médina climatisé avec patio</div><div class="lodging-price">70–100€/n</div></div>
+    </div>
+
+    <h2>Activités sport</h2>
+    <div class="activities-grid">
+      <div class="activity-card"><span class="emoji">🏄</span><h5>Surf Taghazout</h5><div class="activity-price">150€ 4j cours</div></div>
+      <div class="activity-card"><span class="emoji">🏔️</span><h5>Toubkal 4167m</h5><div class="activity-price">50€ guide · 2j</div></div>
+      <div class="activity-card"><span class="emoji">🪁</span><h5>Kitesurf Essaouira</h5><div class="activity-price">60€/sess</div></div>
+      <div class="activity-card"><span class="emoji">🪂</span><h5>Parapente Atlas</h5><div class="activity-price">60€/pers</div></div>
+      <div class="activity-card"><span class="emoji">🚵</span><h5>VTT downhill Atlas</h5><div class="activity-price">50€/j</div></div>
+      <div class="activity-card"><span class="emoji">♨️</span><h5>Hammam riad</h5><div class="activity-price">25€/pers</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== OPINION CLAUDE ===================== -->
+<div class="opinion-page" id="opinion-page">
+  <section style="padding-top: 30px">
+    <div class="section-kicker">My take</div>
+    <h2 class="section-title">Le mieux selon Claude.</h2>
+    <p class="section-intro">Vous m'avez demandé un ranked. Voilà mon classement honnête sur votre brief exact : sportifs, base posée + bouger, off-the-beaten-path, pas de canicule, pays jamais vu, budget respecté.</p>
+
+    <div class="ranking-list">
+      <div class="ranking-item rank-1">
+        <div class="rank-num">1</div>
+        <div class="rank-content">
+          <h3>Albanie</h3>
+          <div class="rank-tagline">Le meilleur ratio dépaysement / budget / sport</div>
+          <p class="rank-why">Pays jamais vu par les 4. Mer turquoise Riviera sud + Alpes albanaises nord dans un seul pays petit. Vol Charleroi-Tirana 110€ A/R, cadeau. Budget 547-634€/pers laisse 866-953€ de marge - on peut craquer activités fat sans souci.</p>
+        </div>
+        <div class="rank-price">634€<small>per person</small></div>
+      </div>
+
+      <div class="ranking-item">
+        <div class="rank-num">2</div>
+        <div class="rank-content">
+          <h3>Géorgie</h3>
+          <div class="rank-tagline">Le plus WOW dépaysement absolu</div>
+          <p class="rank-why">Si vous voulez vraiment surprendre, c'est Géorgie. Caucase, monastères perchés, food culte ultra pas chère, Tbilissi nightlife reconnue, mer Noire Batoumi pour la base posée. Vol 310€/pers cher, mais sur place rien coûte.</p>
+        </div>
+        <div class="rank-price">913€<small>per person</small></div>
+      </div>
+
+      <div class="ranking-item">
+        <div class="rank-num">3</div>
+        <div class="rank-content">
+          <h3>Monténégro</h3>
+          <div class="rank-tagline">La diversité paysagère la plus dense d'Europe</div>
+          <p class="rank-why">Pays microscopique avec TOUT : fjord Bay of Kotor + canyon de la Tara + Durmitor alpin + côte Adriatique. Rafting + canyoning activités phares. Budget 773-832€/pers.</p>
+        </div>
+        <div class="rank-price">832€<small>per person</small></div>
+      </div>
+
+      <div class="ranking-item">
+        <div class="rank-num">4</div>
+        <div class="rank-content">
+          <h3>Madère</h3>
+          <div class="rank-tagline">Le brief "base posée + sport" pris au pied de la lettre</div>
+          <p class="rank-why">1 SEULE villa piscine pendant 7 jours + treks dingues + canyoning + surf. Climat 22-25°C, ZÉRO canicule. Vol direct 3h45.</p>
+        </div>
+        <div class="rank-price">911€<small>per person</small></div>
+      </div>
+
+      <div class="ranking-item">
+        <div class="rank-num">5</div>
+        <div class="rank-content">
+          <h3>Maroc</h3>
+          <div class="rank-tagline">Combo surf + sommet 4000m unique</div>
+          <p class="rank-why">Surf Taghazout + Toubkal 4167m + 24h Marrakech transit. Open-jaw 150€. Budget 820€/pers.</p>
+        </div>
+        <div class="rank-price">820€<small>per person</small></div>
+      </div>
+
+      <div class="ranking-item">
+        <div class="rank-num">6</div>
+        <div class="rank-content">
+          <h3>Bosnie</h3>
+          <div class="rank-tagline">L'autre Balkans, sans la mer</div>
+          <p class="rank-why">Beau pays, plein d'histoire, 2 rafting, food culte. Vol 300€/pers le plus cher du Tier A. Bon si l'histoire 90s + ottoman intéresse.</p>
+        </div>
+        <div class="rank-price">830€<small>per person</small></div>
+      </div>
+
+      <div class="ranking-item">
+        <div class="rank-num">7</div>
+        <div class="rank-content">
+          <h3>Slovénie</h3>
+          <div class="rank-tagline">Belle mais touristique</div>
+          <p class="rank-why">Rafting Soča TOP, mais Bled/Bohinj sur tous les Instas, août = haute saison saturée. OK si Europe centrale propre et compact.</p>
+        </div>
+        <div class="rank-price">830€<small>per person</small></div>
+      </div>
+
+      <div class="ranking-item">
+        <div class="rank-num">8</div>
+        <div class="rank-content">
+          <h3>Açores</h3>
+          <div class="rank-tagline">Magnifique mais budget tendu</div>
+          <p class="rank-why">Destination de rêve sur le papier, mais marge +357€/pers seulement = pas de coussin si imprévu.</p>
+        </div>
+        <div class="rank-price">1143€<small>per person</small></div>
+      </div>
+    </div>
+
+    <div class="opinion-summary">
+      <h4>TL;DR</h4>
+      <p>Mon pari à la place du groupe : <strong>Albanie Option 1 (mer Riviera + Berat)</strong>. 866€ de marge par tête, plage paradisiaque + Theth montagne option day trip, pays que personne dans votre cercle a jamais fait. Si le groupe veut LE wow culturel absolu : <strong>Géorgie Option 1</strong>. Si pure chill+sport sans bouger : <strong>Madère Option 1</strong>.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== VOTE ===================== -->
+<div class="opinion-page" id="vote-page">
+  <section style="padding-top: 30px">
+    <div class="section-kicker">Vote final</div>
+    <h2 class="section-title">À vous de voter.</h2>
+    <p class="section-intro">Chacun envoie son top 3 par ordre de préférence à Louis. On compile et on choisit. Top 1 = 3pts, Top 2 = 2pts, Top 3 = 1pt.</p>
+
+    <div class="vote-grid">
+      <div class="vote-card"><h4>Louis</h4><div class="vote-role">Le planneur</div><div class="vote-status">À remplir</div></div>
+      <div class="vote-card"><h4>Robin</h4><div class="vote-role">Rentré de St Trop</div><div class="vote-status">En attente</div></div>
+      <div class="vote-card"><h4>Hugo</h4><div class="vote-role">Rentré de St Trop</div><div class="vote-status">En attente</div></div>
+      <div class="vote-card"><h4>Jules</h4><div class="vote-role">Sortie d'armée</div><div class="vote-status">En attente</div></div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <p>Vacances août 2026 · Document v4 · Pour Louis et le crew</p>
+</footer>
+
+<script>
+function showView(view) {
+  document.querySelectorAll('.dest-page, .opinion-page').forEach(p => p.classList.remove('active'));
+  document.getElementById('home-view').classList.add('hidden');
+  document.querySelectorAll('nav > ul > li > a').forEach(a => a.classList.remove('active'));
+  if (view === 'home') {
+    document.getElementById('home-view').classList.remove('hidden');
+    document.querySelector('nav a[onclick*="\'home\'"]').classList.add('active');
+  } else if (view === 'claude') {
+    document.getElementById('opinion-page').classList.add('active');
+    document.querySelector('nav a[onclick*="claude"]').classList.add('active');
+  } else if (view === 'vote') {
+    document.getElementById('vote-page').classList.add('active');
+    document.querySelector('nav a[onclick*="vote"]').classList.add('active');
+  }
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  closeAllMenus();
+}
+function showDest(dest) {
+  document.querySelectorAll('.dest-page, .opinion-page').forEach(p => p.classList.remove('active'));
+  document.getElementById('home-view').classList.add('hidden');
+  document.getElementById('dest-' + dest).classList.add('active');
+  document.querySelectorAll('nav > ul > li > a').forEach(a => a.classList.remove('active'));
+  document.querySelector('#dest-dropdown > a').classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  closeAllMenus();
+}
+function toggleDropdown(e) {
+  e.stopPropagation();
+  document.getElementById('dest-dropdown').classList.toggle('open');
+}
+function closeAllMenus() {
+  document.querySelector('nav ul').classList.remove('open');
+  document.getElementById('dest-dropdown').classList.remove('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#dest-dropdown')) {
+    document.getElementById('dest-dropdown').classList.remove('open');
+  }
+});
+</script>
+
+</body>
+</html>
