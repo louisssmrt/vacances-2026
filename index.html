@@ -24,6 +24,9 @@
   --c-azo: oklch(0.58 0.22 265);
   --c-slo: oklch(0.7 0.13 190);
   --c-mar: oklch(0.72 0.18 55);
+  --c-alg: oklch(0.72 0.14 195);
+  --c-ibz: oklch(0.78 0.16 65);
+  --c-maj: oklch(0.74 0.13 110);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -107,6 +110,16 @@ section { padding: 96px 32px; max-width: 1340px; margin: 0 auto; }
 .group-card h4 { font-size: 19px; margin-bottom: 4px; }
 .group-card .role { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.4; }
 .group-card .constraint { font-size: 12px; color: var(--accent); font-weight: 600; }
+
+.dest-filters { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 26px; }
+.dest-filter { background: transparent; border: 1px solid var(--border); color: var(--text-muted); font-family: inherit; font-size: 13px; font-weight: 500; padding: 9px 16px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; }
+.dest-filter:hover { border-color: var(--text-muted); color: var(--text); }
+.dest-filter.is-active { background: var(--accent); border-color: var(--accent); color: oklch(0.12 0.012 260); }
+.dest-filter .count { display: inline-block; min-width: 22px; text-align: center; padding: 2px 6px; border-radius: 6px; font-size: 11px; font-weight: 700; background: oklch(0.5 0.02 260 / 0.25); }
+.dest-filter.is-active .count { background: oklch(0.12 0.012 260 / 0.2); color: oklch(0.12 0.012 260); }
+.dest-card { transition: all 0.3s, opacity 0.25s, transform 0.25s; }
+.dest-card[data-hidden="true"] { display: none; }
+.dest-card .proposer-tag { position: absolute; top: 14px; left: 14px; z-index: 2; background: oklch(0.16 0.012 260 / 0.85); backdrop-filter: blur(6px); border: 1px solid oklch(0.7 0.18 280 / 0.4); color: oklch(0.85 0.12 280); font-size: 11px; font-weight: 600; padding: 5px 10px; border-radius: 999px; letter-spacing: 0.02em; }
 
 .dest-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 22px; }
 .dest-card { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; cursor: pointer; transition: all 0.3s; display: flex; flex-direction: column; }
@@ -478,6 +491,9 @@ footer p { margin: 4px 0; line-height: 1.6; }
         <li><a onclick="showDest('acores')"><span class="dest-dot" style="background:var(--c-azo)"></span>Açores</a></li>
         <li><a onclick="showDest('slovenie')"><span class="dest-dot" style="background:var(--c-slo)"></span>Slovénie</a></li>
         <li><a onclick="showDest('maroc')"><span class="dest-dot" style="background:var(--c-mar)"></span>Maroc</a></li>
+        <li><a onclick="showDest('algarve')"><span class="dest-dot" style="background:var(--c-alg)"></span>Algarve <small style="opacity:.55;font-size:11px">· Jules</small></a></li>
+        <li><a onclick="showDest('ibiza')"><span class="dest-dot" style="background:var(--c-ibz)"></span>Ibiza <small style="opacity:.55;font-size:11px">· Jules</small></a></li>
+        <li><a onclick="showDest('majorque')"><span class="dest-dot" style="background:var(--c-maj)"></span>Majorque <small style="opacity:.55;font-size:11px">· Robin</small></a></li>
       </ul>
     </li>
     <li><a onclick="showView('claude')">Selon Claude</a></li>
@@ -491,10 +507,10 @@ footer p { margin: 4px 0; line-height: 1.6; }
 <div class="hero">
   <div class="hero-inner">
     <div class="eyebrow">Vacances été 2026 · 4 gars · 10 jours · 1500€/pers max</div>
-    <h1>8 destinations pour <em>péter</em><br>votre été.</h1>
-    <p>10 jours quelque part en aout, à 4, off-the-beaten-path, du sport, une base posée avec piscine ou mer, pas dans la canicule, et pays jamais vus. Voilà les options qui passent ce filtre. À vous de voter à la fin.</p>
+    <h1>11 destinations pour <em>péter</em><br>votre été.</h1>
+    <p>10 jours quelque part en aout, à 4, off-the-beaten-path, du sport, une base posée avec piscine ou mer, pas dans la canicule, et pays jamais vus. Voilà les 8 que j'ai filtrées au départ + les 3 qui sont arrivées via vos propositions (Jules : Algarve & Ibiza, Robin : Majorque). À vous de voter à la fin.</p>
     <div class="hero-stats">
-      <div><span class="num">8</span><span class="lbl">destinations</span></div>
+      <div><span class="num">11</span><span class="lbl">destinations</span></div>
       <div><span class="num">10</span><span class="lbl">jours</span></div>
       <div><span class="num">4</span><span class="lbl">potes</span></div>
       <div><span class="num">1500€</span><span class="lbl">/pers max</span></div>
@@ -515,13 +531,19 @@ footer p { margin: 4px 0; line-height: 1.6; }
 </section>
 
 <section>
-  <div class="section-kicker">Les 8 candidates</div>
+  <div class="section-kicker">Les 11 candidates</div>
   <h2 class="section-title">Choisissez votre arme.</h2>
   <p class="section-intro">Click sur une destination pour voir l'itinéraire jour par jour, le budget détaillé et les logements suggérés.</p>
 
+  <div class="dest-filters">
+    <button class="dest-filter is-active" data-filter="all" onclick="filterDests('all', this)">Toutes <span class="count">11</span></button>
+    <button class="dest-filter" data-filter="crew" onclick="filterDests('crew', this)">Propositions crew <span class="count">3</span></button>
+    <button class="dest-filter" data-filter="initial" onclick="filterDests('initial', this)">Sélection initiale <span class="count">8</span></button>
+  </div>
+
   <div class="dest-grid">
 
-    <div class="dest-card" style="--c: var(--c-geo)" onclick="showDest('georgie')">
+    <div class="dest-card" data-source="initial" style="--c: var(--c-geo)" onclick="showDest('georgie')">
       <div class="visual">
         <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Tbilisi%20%2854%29.jpg?width=1200" alt="Géorgie" onerror="this.style.display='none'">
         <div class="country-name">Géorgie</div>
@@ -538,7 +560,7 @@ footer p { margin: 4px 0; line-height: 1.6; }
       </div>
     </div>
 
-    <div class="dest-card" style="--c: var(--c-alb)" onclick="showDest('albanie')">
+    <div class="dest-card" data-source="initial" style="--c: var(--c-alb)" onclick="showDest('albanie')">
       <div class="visual">
         <img src="https://images.unsplash.com/photo-1595190588814-ae94398addf7?w=1200" alt="Albanie" onerror="this.style.display='none'">
         <div class="country-name">Albanie</div>
@@ -555,7 +577,7 @@ footer p { margin: 4px 0; line-height: 1.6; }
       </div>
     </div>
 
-    <div class="dest-card" style="--c: var(--c-mne)" onclick="showDest('montenegro')">
+    <div class="dest-card" data-source="initial" style="--c: var(--c-mne)" onclick="showDest('montenegro')">
       <div class="visual">
         <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kotor%20aerial%201.jpg?width=1200" alt="Monténégro" onerror="this.style.display='none'">
         <div class="country-name">Monténégro</div>
@@ -572,7 +594,7 @@ footer p { margin: 4px 0; line-height: 1.6; }
       </div>
     </div>
 
-    <div class="dest-card" style="--c: var(--c-mad)" onclick="showDest('madere')">
+    <div class="dest-card" data-source="initial" style="--c: var(--c-mad)" onclick="showDest('madere')">
       <div class="visual">
         <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Bergwelt%20am%20Pico%20Ruivo%2C%20Madeira%20II.jpg?width=1200" alt="Madère" onerror="this.style.display='none'">
         <div class="country-name">Madère</div>
@@ -589,7 +611,7 @@ footer p { margin: 4px 0; line-height: 1.6; }
       </div>
     </div>
 
-    <div class="dest-card" style="--c: var(--c-bos)" onclick="showDest('bosnie')">
+    <div class="dest-card" data-source="initial" style="--c: var(--c-bos)" onclick="showDest('bosnie')">
       <div class="visual">
         <img src="https://images.unsplash.com/photo-1689019345483-4f847b92e5e3?w=1200" alt="Bosnie" onerror="this.style.display='none'">
         <div class="country-name">Bosnie</div>
@@ -606,7 +628,7 @@ footer p { margin: 4px 0; line-height: 1.6; }
       </div>
     </div>
 
-    <div class="dest-card" style="--c: var(--c-azo)" onclick="showDest('acores')">
+    <div class="dest-card" data-source="initial" style="--c: var(--c-azo)" onclick="showDest('acores')">
       <div class="visual">
         <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Lagoa%20das%20Sete%20Cidades3.jpg?width=1200" alt="Açores" onerror="this.style.display='none'">
         <div class="country-name">Açores</div>
@@ -623,7 +645,7 @@ footer p { margin: 4px 0; line-height: 1.6; }
       </div>
     </div>
 
-    <div class="dest-card" style="--c: var(--c-slo)" onclick="showDest('slovenie')">
+    <div class="dest-card" data-source="initial" style="--c: var(--c-slo)" onclick="showDest('slovenie')">
       <div class="visual">
         <img src="https://images.unsplash.com/photo-1660342831703-f27ab3f32278?w=1200" alt="Slovénie" onerror="this.style.display='none'">
         <div class="country-name">Slovénie</div>
@@ -640,7 +662,7 @@ footer p { margin: 4px 0; line-height: 1.6; }
       </div>
     </div>
 
-    <div class="dest-card" style="--c: var(--c-mar)" onclick="showDest('maroc')">
+    <div class="dest-card" data-source="initial" style="--c: var(--c-mar)" onclick="showDest('maroc')">
       <div class="visual">
         <img src="https://images.unsplash.com/photo-1611859836043-a9177f500a27?w=1200" alt="Maroc" onerror="this.style.display='none'">
         <div class="country-name">Maroc</div>
@@ -652,6 +674,60 @@ footer p { margin: 4px 0; line-height: 1.6; }
         <div class="price-row">
           <div><div class="price">820€</div><div class="price-lbl">par personne</div></div>
           <div style="text-align:right"><div class="price price-margin">+680€</div><div class="price-lbl">marge budget</div></div>
+        </div>
+        <button class="cta">Voir l'itinéraire →</button>
+      </div>
+    </div>
+
+    <div class="dest-card" data-source="crew" data-proposer="Jules" style="--c: var(--c-alg)" onclick="showDest('algarve')">
+      <div class="visual">
+        <div class="proposer-tag">✨ Jules</div>
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Praia%20da%20Marinha%20%28Algarve%29.jpg?width=1200" alt="Algarve" onerror="this.src='https://images.unsplash.com/photo-1551649001-7a2482d98d05?w=1200';this.onerror=function(){this.style.display='none'}">
+        <div class="country-name">Algarve</div>
+      </div>
+      <div class="body">
+        <div class="tier-row"><span class="tier">Proposé par Jules · Surf & cliffs</span><span>Portugal</span></div>
+        <h3>Sagres, Carrapateira & grottes Benagil</h3>
+        <p class="subtitle">Côte ouest sauvage du Portugal. Praia do Amado en stage coupe du monde, eau 19°C qui réveille, Bordeira fait 6km avec 4 personnes dessus en août.</p>
+        <div class="price-row">
+          <div><div class="price">918€</div><div class="price-lbl">par personne</div></div>
+          <div style="text-align:right"><div class="price price-margin">+582€</div><div class="price-lbl">marge budget</div></div>
+        </div>
+        <button class="cta">Voir l'itinéraire →</button>
+      </div>
+    </div>
+
+    <div class="dest-card" data-source="crew" data-proposer="Jules" style="--c: var(--c-ibz)" onclick="showDest('ibiza')">
+      <div class="visual">
+        <div class="proposer-tag">✨ Jules</div>
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Es%20Vedr%C3%A0%20-%20panoramio.jpg?width=1200" alt="Ibiza" onerror="this.src='https://images.unsplash.com/photo-1473221326025-9183b464bb7e?w=1200';this.onerror=function(){this.style.display='none'}">
+        <div class="country-name">Ibiza</div>
+      </div>
+      <div class="body">
+        <div class="tier-row"><span class="tier">Proposé par Jules · Fiesta + criques</span><span>Baléares</span></div>
+        <h3>Es Vedra, calas nord & Las Dalias</h3>
+        <p class="subtitle">80% de l'île protégée UNESCO. Les criques nord vides en août, les hippie markets depuis 1954, et oui Hï Ibiza si vous voulez claquer 70€ d'entrée.</p>
+        <div class="price-row">
+          <div><div class="price">1618€</div><div class="price-lbl">par personne</div></div>
+          <div style="text-align:right"><div class="price" style="color:oklch(0.65 0.20 25)">-118€</div><div class="price-lbl">marge budget</div></div>
+        </div>
+        <button class="cta">Voir l'itinéraire →</button>
+      </div>
+    </div>
+
+    <div class="dest-card" data-source="crew" data-proposer="Robin" style="--c: var(--c-maj)" onclick="showDest('majorque')">
+      <div class="visual">
+        <div class="proposer-tag">✨ Robin</div>
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sa%20Calobra%20vista%20a%C3%A8ria.jpg?width=1200" alt="Majorque" onerror="this.src='https://images.unsplash.com/photo-1601551345020-fe1de54bdf6b?w=1200';this.onerror=function(){this.style.display='none'}">
+        <div class="country-name">Majorque</div>
+      </div>
+      <div class="body">
+        <div class="tier-row"><span class="tier">Proposé par Robin · Montagne UNESCO</span><span>Baléares</span></div>
+        <h3>Tramuntana, Sóller & Sa Calobra</h3>
+        <p class="subtitle">90km de montagne UNESCO que personne ne capte parce que tout le monde pense Magaluf. GR221 chemin de pierre sèche tracé au 10ème siècle.</p>
+        <div class="price-row">
+          <div><div class="price">1020€</div><div class="price-lbl">par personne</div></div>
+          <div style="text-align:right"><div class="price price-margin">+480€</div><div class="price-lbl">marge budget</div></div>
         </div>
         <button class="cta">Voir l'itinéraire →</button>
       </div>
@@ -1772,6 +1848,377 @@ footer p { margin: 4px 0; line-height: 1.6; }
   </div>
 </div>
 
+<!-- ===================== ALGARVE (proposé par Jules) ===================== -->
+<div class="dest-page" id="dest-algarve" style="--c: var(--c-alg)">
+  <div class="dest-hero">
+    <div class="hero-img" style="background-image: url('https://commons.wikimedia.org/wiki/Special:FilePath/Praia%20da%20Marinha%20%28Algarve%29.jpg?width=1800')"></div>
+    <div class="dest-hero-inner">
+      <button class="back-btn" onclick="showView('home')">← Retour</button>
+      <div class="hero-tier">Proposé par Jules · Portugal</div>
+      <h1>ALGARVE</h1>
+      <p class="pitch">Jules a dit "surf, plages cachées, sorties" et l'Algarve c'est littéralement le pays construit pour ce brief. La côte ouest (Sagres, Carrapateira) tape les vagues atlantiques sur des falaises calcaires de 30m, Praia do Amado et Bordeira sont en stage de coupe du monde, et l'eau à 19°C te réveille comme un Red Bull. Côte sud (Lagos, Albufeira) = grottes Benagil + falaises ocres + boat trips. 33 vols/sem Paris-Faro, 2h45.</p>
+    </div>
+  </div>
+  <div class="dest-body">
+
+    <div class="flight-card">
+      <strong>Paris Beauvais</strong> <span class="arrow">→</span> <strong>Faro</strong> <span class="meta">· Ryanair direct 2h45</span>
+    </div>
+
+    <div class="trip-map">
+      <div class="trip-route">
+        <div class="trip-stop start"><strong>Paris ✈</strong></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Lagos</strong><small>3 nuits</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Carrapateira</strong><small>5 nuits</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Faro</strong><small>1 nuit</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop start"><strong>Paris ✈</strong></div>
+      </div>
+    </div>
+
+    <div class="stage stage--right">
+      <div class="stage-side">
+        <h3 class="stage-title">Lagos</h3>
+        <div class="stage-nights">3 nuits · côte sud</div>
+        <p class="stage-intro">Base posée villa pool. Boat trip grottes Benagil (30€/pers) depuis Marina. Praia da Marinha (top 10 monde Lonely Planet), Praia do Camilo, falaises Algar Seco. Kayak Ponta da Piedade (25€/pers) dans les falaises ocres.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J1</div><div class="day-compact-content"><h5>Vol Paris → Faro, route Lagos (1h)</h5><p>Arrivée midi, déjeuner port, soirée Rua Cândido dos Reis.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J2</div><div class="day-compact-content"><h5>Boat Benagil + kayak Ponta</h5><p>Le shot iconique grotte plage intérieure.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J3</div><div class="day-compact-content"><h5>Day trip plages sud</h5><p>Marinha, Camilo, Algar Seco falaises.</p></div></div>
+        </div>
+      </div>
+      <div class="photos-mosaic photos-mosaic--2x2">
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Lagos%20%28Portugal%29.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Lagos</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Benagil%20Cave.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Grotte Benagil</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Praia%20da%20Marinha%20view.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Praia da Marinha</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ponta%20da%20Piedade%2C%20Lagos.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Ponta da Piedade</span></div>
+      </div>
+    </div>
+
+    <div class="stage stage--left">
+      <div class="photos-mosaic photos-mosaic--mix">
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Praia%20do%20Amado.jpg?width=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Praia do Amado</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Carrapateira%20%28Portugal%29.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Carrapateira</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Cape%20St%20Vincent%20%28Sagres%29.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Cap Saint-Vincent</span></div>
+      </div>
+      <div class="stage-side">
+        <h3 class="stage-title">Carrapateira · Sagres</h3>
+        <div class="stage-nights">5 nuits · côte ouest sauvage</div>
+        <p class="stage-intro">Pointe sud-ouest la plus venteuse d'Europe. Surf school Amado/Bordeira (cours collectif 3h 50€/pers, planches incluses, école qualité). Cap Saint-Vincent "la fin du monde" médiéval, phare 1846. Boat trip côte vicentine depuis Sagres (45€/pers, dauphins). Bordeira fait 6km avec quasi personne en août.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J4</div><div class="day-compact-content"><h5>Route Lagos → Carrapateira (45min)</h5><p>Stop Sagres, arrivée villa surfer.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J5</div><div class="day-compact-content"><h5>Surf lesson Praia do Amado</h5><p>Cours 3h, 50€/pers.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J6</div><div class="day-compact-content"><h5>Aljezur + Praia da Arrifana</h5><p>Plage falaises 1km + château maure.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J7</div><div class="day-compact-content"><h5>Boat côte vicentine Sagres</h5><p>45€/pers, dauphins, grottes sauvages.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J8</div><div class="day-compact-content"><h5>Surf libre Bordeira + trek Pontal</h5><p>6km plage déserte, falaises 30m, sunset cap.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage stage--right">
+      <div class="stage-side">
+        <h3 class="stage-title">Tavira + Faro</h3>
+        <div class="stage-nights">1 nuit · retour</div>
+        <p class="stage-intro">Route retour 2h, stop Tavira (vieille ville mauresque, Ria Formosa lagune, ferry île déserte si temps), dernière nuit Faro vieux quartier avant vol matin.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J9</div><div class="day-compact-content"><h5>Route Carrapateira → Faro (2h)</h5><p>Stop Tavira, arrivée Faro soir.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J10</div><div class="day-compact-content"><h5>Vol Faro → Paris</h5><p>Vol midi.</p></div></div>
+        </div>
+      </div>
+      <div class="photos-mosaic photos-mosaic--big-small">
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Tavira%20%28Portugal%29.jpg?width=1200" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Tavira</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ria%20Formosa%20Tavira.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Ria Formosa</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Faro%20%28Portugal%29.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Faro vieux quartier</span></div>
+      </div>
+    </div>
+
+    <h2>Budget par personne</h2>
+    <div class="budget-table">
+      <table>
+        <tr><td>Vol Paris Beauvais-Faro A/R Ryanair</td><td>130€</td></tr>
+        <tr><td>Logement (Lagos villa pool + Carrapateira surf + Faro)</td><td>305€</td></tr>
+        <tr><td>Voiture 9j + essence</td><td>103€</td></tr>
+        <tr><td>Food 14€/j x 10 (bifana 4€, sardines 8€)</td><td>140€</td></tr>
+        <tr><td>Activités (boat Benagil + kayak + 2 surf + boat Sagres)</td><td>200€</td></tr>
+        <tr><td>Divers</td><td>40€</td></tr>
+        <tr class="total"><td>TOTAL</td><td>918€</td></tr>
+        <tr class="margin"><td>Marge sur 1500€</td><td>+582€</td></tr>
+      </table>
+    </div>
+
+    <h2>Le pour</h2>
+    <div class="pour-list">
+      <ul>
+        <li>Vol direct 2h45, 33 vols/sem Paris-Faro, flex max.</li>
+        <li>Climat côte ouest 22-25°C = on évite la canicule méditerranéenne.</li>
+        <li>Surf accessible débutant→confirmé, école qualité 50€/cours.</li>
+        <li>Marge budget +582€/pers = on peut craquer cours surf en plus.</li>
+        <li>Praia da Marinha = top 10 mondial Lonely Planet.</li>
+        <li>Bordeira en août = 4 personnes sur 6km de plage.</li>
+      </ul>
+    </div>
+
+    <h2>Logements suggérés</h2>
+    <div class="lodgings-list">
+      <div class="lodging-row"><div class="lodging-location">Lagos</div><div class="lodging-name">Villa Camilo Airbnb 3ch piscine vieille ville</div><div class="lodging-price">140–180€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Carrapateira</div><div class="lodging-name">Casa surfer Praia do Amado 4 pers</div><div class="lodging-price">120–150€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Faro</div><div class="lodging-name">Airbnb vieille ville</div><div class="lodging-price">60–80€/n</div></div>
+    </div>
+
+    <h2>Activités sport</h2>
+    <div class="activities-grid">
+      <div class="activity-card"><span class="emoji">🏄</span><h5>Surf Amado / Bordeira</h5><div class="activity-price">50€/pers · 3h cours</div></div>
+      <div class="activity-card"><span class="emoji">⛵</span><h5>Boat Benagil grottes</h5><div class="activity-price">30€/pers</div></div>
+      <div class="activity-card"><span class="emoji">🛶</span><h5>Kayak Ponta da Piedade</h5><div class="activity-price">25€/pers · 2h</div></div>
+      <div class="activity-card"><span class="emoji">🐬</span><h5>Boat côte vicentine</h5><div class="activity-price">45€/pers · dauphins</div></div>
+      <div class="activity-card"><span class="emoji">🥾</span><h5>Trek Pontal Bordeira-Amado</h5><div class="activity-price">Gratuit · 6km</div></div>
+      <div class="activity-card"><span class="emoji">🤿</span><h5>Plongée Sagres</h5><div class="activity-price">~50€/pers</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== IBIZA (proposé par Jules) ===================== -->
+<div class="dest-page" id="dest-ibiza" style="--c: var(--c-ibz)">
+  <div class="dest-hero">
+    <div class="hero-img" style="background-image: url('https://commons.wikimedia.org/wiki/Special:FilePath/Es%20Vedr%C3%A0%20-%20panoramio.jpg?width=1800')"></div>
+    <div class="dest-hero-inner">
+      <button class="back-btn" onclick="showView('home')">← Retour</button>
+      <div class="hero-tier">Proposé par Jules · Baléares</div>
+      <h1>IBIZA</h1>
+      <p class="pitch">Tout le monde pense Ibiza = Bora Bora à 80€ le mojito. Réalité : 80% de l'île est en parc naturel protégé UNESCO, le nord (San Joan, Santa Eulalia) est rural-hippie depuis les 70s, Las Dalias hippie market tourne tous les samedis depuis 1954. Es Vedra = rocher monolithique 400m, "3ème point magnétique du monde" selon les locaux. Personne du crew n'a fait Ibiza sauf Jules, donc pas de déjà-vu à craindre. L'angle Jules tient si on dort nord et qu'on descend sud 2-3 fois. Vol direct 2h. Seul vrai frein : budget tendu vs 1500€, dépassement de 118€/pers version club.</p>
+    </div>
+  </div>
+  <div class="dest-body">
+
+    <div class="flight-card">
+      <strong>Paris Beauvais</strong> <span class="arrow">→</span> <strong>Ibiza</strong> <span class="meta">· Ryanair direct 2h</span>
+    </div>
+
+    <div class="trip-map">
+      <div class="trip-route">
+        <div class="trip-stop start"><strong>Paris ✈</strong></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Nord (San Joan)</strong><small>8 nuits</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Ibiza Town</strong><small>1 nuit</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop start"><strong>Paris ✈</strong></div>
+      </div>
+    </div>
+
+    <div class="stage stage--right">
+      <div class="stage-side">
+        <h3 class="stage-title">Base nord · San Joan / Santa Eulalia</h3>
+        <div class="stage-nights">8 nuits · villa pool</div>
+        <p class="stage-intro">Pinèdes, criques sauvages rouge/turquoise, marchés hippie. Cala Xarraca + Cala Xuclar = criques nord-ouest désertes en août. Es Portitxol = 20min marche depuis Sant Miquel jusqu'à une crique secrète avec huttes pêcheurs sun-bleached. Las Dalias hippie market samedi à San Carlos (~200 stands depuis 1954). Punta Arabí mercredi à Es Canar (+500 stands).</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J1</div><div class="day-compact-content"><h5>Vol Paris → Ibiza, route nord (40min)</h5><p>Arrivée villa, plage Cala Llonga.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J2</div><div class="day-compact-content"><h5>Cala Xarraca + Cala Xuclar</h5><p>Criques sauvages nord-ouest, snorkel.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J3</div><div class="day-compact-content"><h5>Las Dalias market + Cala Boix</h5><p>Marché matin, plage aprem.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J4</div><div class="day-compact-content"><h5>Boat Formentera + Es Vedra</h5><p>90€/pers, Espalmador eau turquoise.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J5</div><div class="day-compact-content"><h5>Dalt Vila Ibiza Town (UNESCO)</h5><p>Forteresse 16ème, sunset Cala Hort face Es Vedra.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J6</div><div class="day-compact-content"><h5>Trek Es Portitxol</h5><p>20min Sant Miquel → crique secrète.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J7</div><div class="day-compact-content"><h5>Soirée club (Hï ou DC10)</h5><p>70€ entrée + 15€/verre, budget tendu.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J8</div><div class="day-compact-content"><h5>Repos villa + Cala d'Hort</h5><p>Récup après club, plage face Es Vedra.</p></div></div>
+        </div>
+      </div>
+      <div class="photos-mosaic photos-mosaic--2x2">
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Cala%20Xarraca.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Cala Xarraca</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Las%20Dalias%2C%20Ibiza.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Las Dalias market</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Es%20Vedr%C3%A0%20sunset.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Es Vedra sunset</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Dalt%20Vila%20Ibiza.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Dalt Vila UNESCO</span></div>
+      </div>
+    </div>
+
+    <div class="stage stage--left">
+      <div class="photos-mosaic photos-mosaic--mix">
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Formentera%20beach.jpg?width=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Formentera</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Cala%20d%27Hort%20Ibiza.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Cala d'Hort</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ibiza%20Town%20port.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Port Ibiza Town</span></div>
+      </div>
+      <div class="stage-side">
+        <h3 class="stage-title">Ibiza Town · dernière nuit</h3>
+        <div class="stage-nights">1 nuit · vieille ville</div>
+        <p class="stage-intro">Dalt Vila UNESCO 16ème, port animé, tapas Santa Catalina, dernière soirée en vieille ville avant vol matin (aéroport 15min).</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J9</div><div class="day-compact-content"><h5>Punta Arabí market puis Ibiza Town</h5><p>Marché matin Es Canar +500 stands.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J10</div><div class="day-compact-content"><h5>Vol Ibiza → Paris</h5><p>Vol matin.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Budget par personne</h2>
+    <div class="budget-table">
+      <table>
+        <tr><td>Vol Paris Beauvais-Ibiza A/R Ryanair</td><td>120€</td></tr>
+        <tr><td>Logement (villa nord 8n + Ibiza Town 1n, peak Baléares)</td><td>788€</td></tr>
+        <tr><td>Voiture 9j + essence + parking ville</td><td>160€</td></tr>
+        <tr><td>Food 22€/j x 10 (île chère)</td><td>220€</td></tr>
+        <tr><td>Activités (boat Formentera + 1 club + sunset + 1 dîner port)</td><td>270€</td></tr>
+        <tr><td>Divers</td><td>60€</td></tr>
+        <tr class="total"><td>TOTAL</td><td>1618€</td></tr>
+        <tr class="margin" style="color:oklch(0.65 0.20 25)"><td>Marge sur 1500€</td><td>-118€ ⚠</td></tr>
+        <tr><td colspan="2" style="opacity:.7;font-size:13px;padding-top:12px">Version "low cost sans club" : 1150€/pers (+350€ marge). Mais Jules a demandé la fête.</td></tr>
+      </table>
+    </div>
+
+    <h2>Le pour</h2>
+    <div class="pour-list">
+      <ul>
+        <li>Vol direct 2h, le plus court de la shortlist.</li>
+        <li>Mer 26°C bouillante.</li>
+        <li>Combine plage, fête, hippie market, vieille ville UNESCO.</li>
+        <li>Formentera boat trip = un des paysages les plus mythiques d'Europe.</li>
+        <li>Côté festif unique : si Jules veut LA boîte, c'est ici ou rien.</li>
+      </ul>
+    </div>
+
+    <h2>Logements suggérés</h2>
+    <div class="lodgings-list">
+      <div class="lodging-row"><div class="lodging-location">Nord (San Joan)</div><div class="lodging-name">Villa 4ch piscine type Casa Tranquilla</div><div class="lodging-price">320–450€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Nord low-cost</div><div class="lodging-name">Apartment 2ch Santa Eulalia front mer</div><div class="lodging-price">200–260€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Ibiza Town</div><div class="lodging-name">Boutique hôtel Sa Punta ou Airbnb Dalt Vila</div><div class="lodging-price">100–140€/n</div></div>
+    </div>
+
+    <h2>Activités sport</h2>
+    <div class="activities-grid">
+      <div class="activity-card"><span class="emoji">⛵</span><h5>Boat Formentera + Es Vedra</h5><div class="activity-price">90€/pers · journée</div></div>
+      <div class="activity-card"><span class="emoji">🤿</span><h5>Snorkel Cala Xarraca</h5><div class="activity-price">Gratuit</div></div>
+      <div class="activity-card"><span class="emoji">🥾</span><h5>Trek Es Portitxol</h5><div class="activity-price">Gratuit · 20min</div></div>
+      <div class="activity-card"><span class="emoji">🐠</span><h5>Plongée nord Ibiza</h5><div class="activity-price">~55€/pers</div></div>
+      <div class="activity-card"><span class="emoji">🛶</span><h5>Paddle Cala Llonga</h5><div class="activity-price">~25€/pers</div></div>
+      <div class="activity-card"><span class="emoji">🎧</span><h5>Club Hï / DC10</h5><div class="activity-price">70€ entrée + verres</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== MAJORQUE (proposé par Robin) ===================== -->
+<div class="dest-page" id="dest-majorque" style="--c: var(--c-maj)">
+  <div class="dest-hero">
+    <div class="hero-img" style="background-image: url('https://commons.wikimedia.org/wiki/Special:FilePath/Sa%20Calobra%20vista%20a%C3%A8ria.jpg?width=1800')"></div>
+    <div class="dest-hero-inner">
+      <button class="back-btn" onclick="showView('home')">← Retour</button>
+      <div class="hero-tier">Proposé par Robin · Baléares</div>
+      <h1>MAJORQUE</h1>
+      <p class="pitch">Tout le monde pense Magaluf et British bourrés en surface. Derrière : la Serra de Tramuntana, 90km de montagnes UNESCO jusqu'à 1445m, le GR221 "chemin de pierre sèche" tracé au 10ème siècle par les Maures, le village de Deià où Robert Graves a vécu, Sa Calobra et ses 14 lacets descente vers une crique avec canyon. Plus grande des Baléares (3640 km²) = on combine montagne nord-ouest + plages cachées sud-est sans 4h de route. Personne du crew n'a fait Majorque, donc pas de déjà-vu. Robin a raison sur le ratio "personne ne capte la vraie Majorque".</p>
+    </div>
+  </div>
+  <div class="dest-body">
+
+    <div class="flight-card">
+      <strong>Paris Beauvais</strong> <span class="arrow">→</span> <strong>Palma</strong> <span class="meta">· Ryanair direct 2h</span>
+    </div>
+
+    <div class="trip-map">
+      <div class="trip-route">
+        <div class="trip-stop start"><strong>Paris ✈</strong></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Sóller</strong><small>5 nuits</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Pollença</strong><small>2 nuits</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Cala d'Or</strong><small>1 nuit</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop"><strong>Palma</strong><small>1 nuit</small></div><span class="trip-arrow">→</span>
+        <div class="trip-stop start"><strong>Paris ✈</strong></div>
+      </div>
+    </div>
+
+    <div class="stage stage--right">
+      <div class="stage-side">
+        <h3 class="stage-title">Sóller · Serra de Tramuntana</h3>
+        <div class="stage-nights">5 nuits · base montagne UNESCO</div>
+        <p class="stage-intro">Vallée orange-citron en pleine Tramuntana. Hike Sóller-Deià (10km, chemin médiéval pierre sèche, 4h). Sa Calobra = 26km de route avec 14 lacets descente vers une crique, randonnée Torrent de Pareis = canyon avec baignade. Tram historique 1912 Sóller-Port (7€ A/R). Cap Formentor au nord, phare bout du monde sur falaises 300m. Cala Deià galets eau bleue.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J1</div><div class="day-compact-content"><h5>Vol Paris → Palma, route Sóller (40min)</h5><p>Tram historique Sóller-Port.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J2</div><div class="day-compact-content"><h5>Hike Sóller → Deià (10km)</h5><p>Chemin médiéval pierre sèche, 4h.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J3</div><div class="day-compact-content"><h5>Sa Calobra + Torrent de Pareis</h5><p>Route 14 lacets, canyon baignade.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J4</div><div class="day-compact-content"><h5>Valldemossa + Deià + Cala Deià</h5><p>Village Chopin, lunch Es Racó, crique.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J5</div><div class="day-compact-content"><h5>Cap Formentor + Cala Figuera</h5><p>Phare falaises 300m, plage pinède.</p></div></div>
+        </div>
+      </div>
+      <div class="photos-mosaic photos-mosaic--2x2">
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Soller%2C%20Mallorca.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Sóller vallée</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sa%20Calobra%20serpentine%20road.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Sa Calobra 14 lacets</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Cala%20Dei%C3%A0.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Cala Deià</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Cap%20de%20Formentor.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Cap Formentor</span></div>
+      </div>
+    </div>
+
+    <div class="stage stage--left">
+      <div class="photos-mosaic photos-mosaic--mix">
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Pollen%C3%A7a%20Calvari.jpg?width=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Calvari Pollença</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Cala%20Sant%20Vicen%C3%A7.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Cala Sant Vicenç</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Cala%20Varques.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Cala Varques</span></div>
+      </div>
+      <div class="stage-side">
+        <h3 class="stage-title">Pollença · Cala d'Or</h3>
+        <div class="stage-nights">3 nuits · nord-est puis sud-est</div>
+        <p class="stage-intro">Pollença vieille ville médiévale, Calvari aux 365 marches, apéro Plaça Major. Day trip Cala Sant Vicenç + trek Boquer (massif Cavall Bernat). Puis sud-est Cala Varques = crique cachée parking 15min marche, trubuline rochers, baignade calme.</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J6</div><div class="day-compact-content"><h5>Route Sóller → Pollença (1h)</h5><p>Vieille ville, Calvari, apéro.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J7</div><div class="day-compact-content"><h5>Cala Sant Vicenç + trek Boquer</h5><p>Trek 1h vallée massif.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J8</div><div class="day-compact-content"><h5>Route sud-est Cala Varques</h5><p>Crique cachée, 15min marche.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage stage--right">
+      <div class="stage-side">
+        <h3 class="stage-title">Palma</h3>
+        <div class="stage-nights">1 nuit · capitale</div>
+        <p class="stage-intro">La Seu cathédrale (Gaudí a remodelé l'intérieur), vieille ville Sa Llotja, baignade Cala Major, soirée tapas Santa Catalina (la version chill de la nightlife Baléares, sans le côté Magaluf).</p>
+        <div class="days-list">
+          <div class="day-compact"><div class="day-tag">J9</div><div class="day-compact-content"><h5>Route sud-est → Palma (1h)</h5><p>Cathédrale + tapas Santa Catalina.</p></div></div>
+          <div class="day-compact"><div class="day-tag">J10</div><div class="day-compact-content"><h5>Vol Palma → Paris</h5><p>Aéroport 10min.</p></div></div>
+        </div>
+      </div>
+      <div class="photos-mosaic photos-mosaic--big-small">
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Palma%20cathedral%20La%20Seu.jpg?width=1200" alt="" onerror="this.style.opacity=0"><span class="photo-caption">La Seu Palma</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Santa%20Catalina%20Palma.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Santa Catalina</span></div>
+        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Cuevas%20del%20Drach.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Cuevas del Drach</span></div>
+      </div>
+    </div>
+
+    <h2>Budget par personne</h2>
+    <div class="budget-table">
+      <table>
+        <tr><td>Vol Paris Beauvais-Palma A/R Ryanair</td><td>110€</td></tr>
+        <tr><td>Logement (Sóller villa pool + Pollença hôtel + Cala d'Or + Palma + écotax)</td><td>475€</td></tr>
+        <tr><td>Voiture 9j + essence + parking ville</td><td>100€</td></tr>
+        <tr><td>Food 17€/j x 10 (tapas 10-15€)</td><td>170€</td></tr>
+        <tr><td>Activités (Cuevas Drach + boat Sa Calobra + plongée + soirée Palma)</td><td>125€</td></tr>
+        <tr><td>Divers</td><td>40€</td></tr>
+        <tr class="total"><td>TOTAL</td><td>1020€</td></tr>
+        <tr class="margin"><td>Marge sur 1500€</td><td>+480€</td></tr>
+      </table>
+    </div>
+
+    <h2>Le pour</h2>
+    <div class="pour-list">
+      <ul>
+        <li>Vol direct 2h depuis Beauvais.</li>
+        <li>Combine montagne UNESCO + plages cachées + capitale (Palma) dans une île.</li>
+        <li>Tramuntana 28°C en pleine canicule = échappatoire.</li>
+        <li>GR221 = trek mythique compris dans le séjour.</li>
+        <li>Sa Calobra + Torrent de Pareis = expérience unique.</li>
+        <li>Mer 28°C bouillante, baignade max confort.</li>
+        <li>Nightlife Palma sans le côté Magaluf (Santa Catalina).</li>
+      </ul>
+    </div>
+
+    <h2>Logements suggérés</h2>
+    <div class="lodgings-list">
+      <div class="lodging-row"><div class="lodging-location">Sóller</div><div class="lodging-name">Villa pool vallée (Airbnb "Casa al Carrer Vell")</div><div class="lodging-price">260–340€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Pollença</div><div class="lodging-name">Hotel Juma Plaça Major ou Airbnb Calvari</div><div class="lodging-price">120–160€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Cala d'Or</div><div class="lodging-name">Villa résidentielle 4 pers pool</div><div class="lodging-price">240–320€/n</div></div>
+      <div class="lodging-row"><div class="lodging-location">Palma</div><div class="lodging-name">Hostal Cuba Santa Catalina ou Airbnb centre</div><div class="lodging-price">100–140€/n</div></div>
+    </div>
+
+    <h2>Activités sport</h2>
+    <div class="activities-grid">
+      <div class="activity-card"><span class="emoji">🥾</span><h5>Hike Sóller → Deià</h5><div class="activity-price">Gratuit · 10km / 4h</div></div>
+      <div class="activity-card"><span class="emoji">⛰️</span><h5>Torrent de Pareis</h5><div class="activity-price">Gratuit · canyon</div></div>
+      <div class="activity-card"><span class="emoji">🚞</span><h5>Tram 1912 Sóller-Port</h5><div class="activity-price">7€ A/R</div></div>
+      <div class="activity-card"><span class="emoji">⛵</span><h5>Boat sud-est criques</h5><div class="activity-price">40€/pers · Caló des Moro</div></div>
+      <div class="activity-card"><span class="emoji">🤿</span><h5>Plongée Pollença</h5><div class="activity-price">~50€/pers</div></div>
+      <div class="activity-card"><span class="emoji">🎻</span><h5>Cuevas del Drach</h5><div class="activity-price">15€/pers · concert souterrain</div></div>
+    </div>
+  </div>
+</div>
+
 <!-- ===================== OPINION CLAUDE ===================== -->
 <div class="opinion-page" id="opinion-page">
   <section style="padding-top: 30px">
@@ -1918,6 +2365,9 @@ footer p { margin: 4px 0; line-height: 1.6; }
             <option value="acores">Açores</option>
             <option value="slovenie">Slovénie</option>
             <option value="maroc">Maroc</option>
+            <option value="algarve">Algarve (Jules)</option>
+            <option value="ibiza">Ibiza (Jules)</option>
+            <option value="majorque">Majorque (Robin)</option>
           </select>
         </label>
         <label>🥈 Top 2 (2 pts)
@@ -1931,6 +2381,9 @@ footer p { margin: 4px 0; line-height: 1.6; }
             <option value="acores">Açores</option>
             <option value="slovenie">Slovénie</option>
             <option value="maroc">Maroc</option>
+            <option value="algarve">Algarve (Jules)</option>
+            <option value="ibiza">Ibiza (Jules)</option>
+            <option value="majorque">Majorque (Robin)</option>
           </select>
         </label>
         <label>🥉 Top 3 (1 pt)
@@ -1944,6 +2397,9 @@ footer p { margin: 4px 0; line-height: 1.6; }
             <option value="acores">Açores</option>
             <option value="slovenie">Slovénie</option>
             <option value="maroc">Maroc</option>
+            <option value="algarve">Algarve (Jules)</option>
+            <option value="ibiza">Ibiza (Jules)</option>
+            <option value="majorque">Majorque (Robin)</option>
           </select>
         </label>
         <label>Commentaire (optionnel)
@@ -1987,9 +2443,10 @@ footer p { margin: 4px 0; line-height: 1.6; }
 </div>
 
 <script>
-const DESTS = ['georgie','albanie','montenegro','madere','bosnie','acores','slovenie','maroc'];
-const DEST_NAMES = { georgie:'Géorgie', albanie:'Albanie', montenegro:'Monténégro', madere:'Madère', bosnie:'Bosnie', acores:'Açores', slovenie:'Slovénie', maroc:'Maroc' };
-const DEST_COLORS = { georgie:'var(--c-geo)', albanie:'var(--c-alb)', montenegro:'var(--c-mne)', madere:'var(--c-mad)', bosnie:'var(--c-bos)', acores:'var(--c-azo)', slovenie:'var(--c-slo)', maroc:'var(--c-mar)' };
+const DESTS = ['georgie','albanie','montenegro','madere','bosnie','acores','slovenie','maroc','algarve','ibiza','majorque'];
+const DEST_NAMES = { georgie:'Géorgie', albanie:'Albanie', montenegro:'Monténégro', madere:'Madère', bosnie:'Bosnie', acores:'Açores', slovenie:'Slovénie', maroc:'Maroc', algarve:'Algarve', ibiza:'Ibiza', majorque:'Majorque' };
+const DEST_COLORS = { georgie:'var(--c-geo)', albanie:'var(--c-alb)', montenegro:'var(--c-mne)', madere:'var(--c-mad)', bosnie:'var(--c-bos)', acores:'var(--c-azo)', slovenie:'var(--c-slo)', maroc:'var(--c-mar)', algarve:'var(--c-alg)', ibiza:'var(--c-ibz)', majorque:'var(--c-maj)' };
+const DEST_PROPOSER = { algarve:'Jules', ibiza:'Jules', majorque:'Robin' };
 let currentDest = null;
 function updateDestNav(dest) {
   currentDest = dest;
@@ -2067,6 +2524,15 @@ function showDest(dest) {
 function toggleDropdown(e) {
   e.stopPropagation();
   document.getElementById('dest-dropdown').classList.toggle('open');
+}
+function filterDests(filter, btn) {
+  document.querySelectorAll('.dest-filter').forEach(b => b.classList.remove('is-active'));
+  if (btn) btn.classList.add('is-active');
+  document.querySelectorAll('.dest-card').forEach(card => {
+    const src = card.getAttribute('data-source');
+    const show = filter === 'all' || src === filter;
+    card.setAttribute('data-hidden', show ? 'false' : 'true');
+  });
 }
 function closeAllMenus() {
   document.querySelector('nav ul').classList.remove('open');
