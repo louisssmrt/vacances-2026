@@ -57,7 +57,12 @@ nav a:hover, nav a.active { color: var(--text); }
   padding: 6px; min-width: 220px; flex-direction: column; list-style: none;
   box-shadow: 0 8px 30px oklch(0 0 0 / 0.3); z-index: 110;
 }
+.dropdown-menu::before { content: ''; position: absolute; top: -10px; left: 0; right: 0; height: 10px; }
 .dropdown.open .dropdown-menu { display: flex; }
+@media (hover: hover) and (min-width: 769px) {
+  .dropdown:hover .dropdown-menu { display: flex; }
+  .dropdown:hover > a .caret { transform: rotate(180deg); }
+}
 .dropdown-menu li { width: 100%; }
 .dropdown-menu li a {
   display: flex; align-items: center; gap: 10px; padding: 9px 14px;
@@ -257,6 +262,71 @@ section { padding: 96px 32px; max-width: 1340px; margin: 0 auto; }
 footer { background: var(--bg-soft); border-top: 1px solid var(--border); padding: 44px 32px; text-align: center; color: var(--text-muted); font-size: 13px; margin-top: 80px; }
 footer p { margin: 4px 0; line-height: 1.6; }
 
+.photo img { cursor: zoom-in; }
+.lightbox {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: oklch(0.08 0.008 260 / 0.94); backdrop-filter: blur(10px);
+  align-items: center; justify-content: center; padding: 32px;
+  animation: lb-fade 0.18s ease;
+}
+.lightbox.open { display: flex; }
+@keyframes lb-fade { from { opacity: 0; } to { opacity: 1; } }
+.lightbox-img {
+  max-width: 100%; max-height: 100%; object-fit: contain;
+  border-radius: 10px; box-shadow: 0 30px 80px oklch(0 0 0 / 0.6);
+  cursor: zoom-out;
+}
+.lightbox-close {
+  position: absolute; top: 18px; right: 22px;
+  background: oklch(0.2 0.015 260 / 0.6); border: 1px solid oklch(1 0 0 / 0.12);
+  color: var(--text); width: 42px; height: 42px; border-radius: 50%;
+  font-size: 20px; cursor: pointer; backdrop-filter: blur(14px);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, transform 0.2s;
+}
+.lightbox-close:hover { background: oklch(0.3 0.02 260 / 0.8); transform: scale(1.05); }
+.lightbox-caption {
+  position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+  color: var(--text); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em;
+  font-weight: 600;
+  background: oklch(0.16 0.012 260 / 0.65); padding: 8px 16px; border-radius: 999px;
+  backdrop-filter: blur(14px); border: 1px solid oklch(1 0 0 / 0.08);
+  max-width: 80vw; text-align: center;
+}
+.lightbox-caption:empty { display: none; }
+
+.dest-nav-mobile {
+  display: none; position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%);
+  background: oklch(0.22 0.015 260 / 0.5);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid oklch(1 0 0 / 0.14);
+  box-shadow: 0 10px 40px oklch(0 0 0 / 0.45), inset 0 1px 0 oklch(1 0 0 / 0.12);
+  border-radius: 999px;
+  padding: 7px 9px; gap: 6px;
+  z-index: 95; align-items: center;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.dest-nav-mobile.visible { display: flex; }
+.dest-nav-arrow {
+  background: transparent; border: 0; color: var(--text);
+  font-size: 18px; width: 38px; height: 38px; cursor: pointer;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.dest-nav-arrow:active { background: oklch(1 0 0 / 0.1); }
+.dest-nav-current {
+  display: flex; align-items: center; gap: 9px;
+  padding: 0 8px; font-size: 14px; font-weight: 600; color: var(--text);
+  min-width: 110px; justify-content: center;
+}
+.dest-nav-flag {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--current-c, var(--accent));
+  box-shadow: 0 0 10px var(--current-c, var(--accent));
+}
+@media (min-width: 769px) { .dest-nav-mobile { display: none !important; } }
+
 @media (max-width: 1024px) {
   .vote-grid { grid-template-columns: repeat(2, 1fr); }
   .group { grid-template-columns: repeat(2, 1fr); }
@@ -286,8 +356,18 @@ footer p { margin: 4px 0; line-height: 1.6; }
   .rank-price { grid-column: 1 / -1; text-align: right; padding-top: 12px; border-top: 1px solid var(--border); margin-top: 14px; }
   .vote-grid { grid-template-columns: 1fr; }
   .dest-hero { padding: 110px 20px 50px; min-height: auto; }
-  .trip-map { padding: 22px 18px; } .trip-route { gap: 8px; padding: 12px 0; }
-  .trip-stop { padding: 10px 14px; min-width: 90px; } .trip-stop strong { font-size: 12.5px; } .trip-stop small { font-size: 10px; }
+  .trip-map { padding: 22px 14px; }
+  .trip-route {
+    flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden;
+    justify-content: flex-start; gap: 8px; padding: 12px 4px 14px;
+    scrollbar-width: none; -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    mask-image: linear-gradient(to right, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
+  }
+  .trip-route::-webkit-scrollbar { display: none; }
+  .trip-stop { padding: 10px 14px; min-width: 92px; flex-shrink: 0; } .trip-stop strong { font-size: 12.5px; } .trip-stop small { font-size: 10px; }
+  .trip-arrow { flex-shrink: 0; }
+  body:has(.dest-page.active) { padding-bottom: 80px; }
   .stage-mini { flex-direction: column; align-items: flex-start; gap: 8px; padding: 18px; }
   .flight-card { padding: 12px 16px; }
 }
@@ -706,9 +786,9 @@ footer p { margin: 4px 0; line-height: 1.6; }
 
     <div class="stage stage--left">
       <div class="photos-mosaic photos-mosaic--big-small">
-        <div class="photo"><img src="https://images.unsplash.com/photo-1559219432-1962fcaa2752?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Berat aux 1000 fenêtres</span></div>
-        <div class="photo"><img src="https://images.unsplash.com/photo-1569216961559-fd512349ebba?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Façades ottomanes</span></div>
-        <div class="photo"><img src="https://images.unsplash.com/photo-1569166047786-b5e14e0bde1e?w=1600" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Fenêtre détail</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1623167428954-be47340e0812?w=1600" alt="Berat vieille ville" onerror="this.style.opacity=0"><span class="photo-caption">Berat vieille ville</span></div>
+        <div class="photo"><img src="https://plus.unsplash.com/premium_photo-1676231364063-b22be0f6b219?w=1600" alt="Berat Mangalem" onerror="this.style.opacity=0"><span class="photo-caption">Quartier Mangalem</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1687294087548-eeff52ddfb03?w=1600" alt="Berat Castle" onerror="this.style.opacity=0"><span class="photo-caption">Château habité</span></div>
       </div>
       <div class="stage-side">
         <h3 class="stage-title">Berat</h3>
@@ -1140,7 +1220,7 @@ footer p { margin: 4px 0; line-height: 1.6; }
         </div>
       </div>
       <div class="photos-mosaic photos-mosaic--2x2">
-        <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sarajevo.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Sarajevo</span></div>
+        <div class="photo"><img src="https://images.unsplash.com/photo-1703176417782-ef091eec4697?w=1600" alt="Sarajevo" onerror="this.style.opacity=0"><span class="photo-caption">Sarajevo</span></div>
         <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ba%C5%A1%C4%8Dar%C5%A1ija%202006.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Baščaršija</span></div>
         <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sarajevo%20%28night%29.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Sarajevo nuit</span></div>
         <div class="photo"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/View%20on%20Sarajevo%20from%20Vi%C5%A1njik%2C%202023.01.23%201.jpg?width=900" alt="" onerror="this.style.opacity=0"><span class="photo-caption">Vue Višnjik</span></div>
@@ -1718,7 +1798,71 @@ footer p { margin: 4px 0; line-height: 1.6; }
   <p>Vacances août 2026 · Document v4 · Pour Louis et le crew</p>
 </footer>
 
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" aria-label="Fermer" onclick="closeLightbox(event)">✕</button>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+
+<div class="dest-nav-mobile" id="dest-nav-mobile">
+  <button class="dest-nav-arrow" onclick="navDest(-1)" aria-label="Précédent">←</button>
+  <div class="dest-nav-current">
+    <span class="dest-nav-flag"></span>
+    <span class="dest-nav-name">—</span>
+  </div>
+  <button class="dest-nav-arrow" onclick="navDest(1)" aria-label="Suivant">→</button>
+</div>
+
 <script>
+const DESTS = ['georgie','albanie','montenegro','madere','bosnie','acores','slovenie','maroc'];
+const DEST_NAMES = { georgie:'Géorgie', albanie:'Albanie', montenegro:'Monténégro', madere:'Madère', bosnie:'Bosnie', acores:'Açores', slovenie:'Slovénie', maroc:'Maroc' };
+const DEST_COLORS = { georgie:'var(--c-geo)', albanie:'var(--c-alb)', montenegro:'var(--c-mne)', madere:'var(--c-mad)', bosnie:'var(--c-bos)', acores:'var(--c-azo)', slovenie:'var(--c-slo)', maroc:'var(--c-mar)' };
+let currentDest = null;
+function updateDestNav(dest) {
+  currentDest = dest;
+  const bar = document.getElementById('dest-nav-mobile');
+  if (!bar) return;
+  if (dest && DEST_NAMES[dest]) {
+    bar.querySelector('.dest-nav-name').textContent = DEST_NAMES[dest];
+    bar.style.setProperty('--current-c', DEST_COLORS[dest]);
+    bar.classList.add('visible');
+  } else {
+    bar.classList.remove('visible');
+  }
+}
+function navDest(delta) {
+  if (!currentDest) return;
+  const idx = DESTS.indexOf(currentDest);
+  if (idx < 0) return;
+  const next = DESTS[(idx + delta + DESTS.length) % DESTS.length];
+  showDest(next);
+}
+
+function openLightbox(img) {
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  const lbCap = document.getElementById('lightbox-caption');
+  const hires = (img.src || '').replace(/(\?|&)w=\d+/, (_, p) => p + 'w=1800');
+  lbImg.src = hires;
+  lbImg.alt = img.alt || '';
+  const capEl = img.parentElement && img.parentElement.querySelector('.photo-caption');
+  lbCap.textContent = capEl ? capEl.textContent : '';
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(e) {
+  if (e && e.target && e.target.id === 'lightbox-img') return;
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('click', (e) => {
+  const img = e.target.closest('.photo img');
+  if (img) { e.preventDefault(); e.stopPropagation(); openLightbox(img); }
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeLightbox();
+});
+
 function showView(view) {
   document.querySelectorAll('.dest-page, .opinion-page').forEach(p => p.classList.remove('active'));
   document.getElementById('home-view').classList.add('hidden');
@@ -1735,6 +1879,7 @@ function showView(view) {
   }
   window.scrollTo({top: 0, behavior: 'smooth'});
   closeAllMenus();
+  updateDestNav(null);
 }
 function showDest(dest) {
   document.querySelectorAll('.dest-page, .opinion-page').forEach(p => p.classList.remove('active'));
@@ -1744,6 +1889,7 @@ function showDest(dest) {
   document.querySelector('#dest-dropdown > a').classList.add('active');
   window.scrollTo({top: 0, behavior: 'smooth'});
   closeAllMenus();
+  updateDestNav(dest);
 }
 function toggleDropdown(e) {
   e.stopPropagation();
