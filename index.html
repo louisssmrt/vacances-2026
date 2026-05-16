@@ -253,11 +253,53 @@ section { padding: 96px 32px; max-width: 1340px; margin: 0 auto; }
 .opinion-summary p { font-size: 16px; line-height: 1.7; color: var(--text); }
 .opinion-summary strong { color: var(--accent); font-weight: 700; }
 
-.vote-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px; }
-.vote-card { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 14px; padding: 26px; }
-.vote-card h4 { font-size: 19px; margin-bottom: 6px; }
-.vote-card .vote-role { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; line-height: 1.4; }
-.vote-card .vote-status { font-size: 13px; color: var(--accent); font-style: italic; font-weight: 500; }
+.vote-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 28px; margin-top: 32px; align-items: start; }
+.vote-form { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 18px; padding: 28px; display: flex; flex-direction: column; gap: 16px; }
+.vote-form h3 { font-size: 22px; margin-bottom: 4px; }
+.vote-form label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+.vote-form input, .vote-form select, .vote-form textarea {
+  background: var(--bg); border: 1px solid var(--border); color: var(--text);
+  border-radius: 10px; padding: 12px 14px; font-size: 15px; font-family: inherit;
+  outline: 0; transition: border-color 0.2s;
+}
+.vote-form input:focus, .vote-form select:focus, .vote-form textarea:focus { border-color: var(--accent); }
+.vote-form textarea { resize: vertical; min-height: 70px; }
+.vote-form button {
+  background: var(--accent); color: oklch(0.12 0.012 260); border: 0;
+  padding: 14px 18px; border-radius: 10px; font-weight: 700; font-size: 15px;
+  cursor: pointer; transition: transform 0.15s, opacity 0.2s;
+  font-family: 'Bricolage Grotesque', sans-serif; letter-spacing: -0.01em;
+}
+.vote-form button:hover:not(:disabled) { transform: translateY(-1px); }
+.vote-form button:disabled { opacity: 0.55; cursor: not-allowed; }
+.vote-msg { font-size: 13px; padding: 10px 14px; border-radius: 8px; }
+.vote-msg.ok { background: oklch(0.35 0.15 145 / 0.18); color: oklch(0.85 0.18 145); border: 1px solid oklch(0.5 0.18 145 / 0.4); }
+.vote-msg.err { background: oklch(0.4 0.2 25 / 0.18); color: oklch(0.85 0.15 25); border: 1px solid oklch(0.6 0.2 25 / 0.4); }
+
+.scoreboard { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 18px; padding: 28px; }
+.scoreboard h3 { font-size: 22px; margin-bottom: 4px; }
+.scoreboard-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 22px; }
+.score-row { display: grid; grid-template-columns: 32px 1fr auto auto; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.score-row:last-child { border-bottom: 0; }
+.score-rank { font-family: 'Bricolage Grotesque'; font-size: 22px; font-weight: 700; color: var(--text-muted); }
+.score-row.top1 .score-rank { color: var(--accent); }
+.score-dest { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; }
+.score-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.score-bar-wrap { width: 100px; height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+.score-bar { height: 100%; background: linear-gradient(90deg, var(--c, var(--accent)), oklch(0.85 0.18 92)); transition: width 0.6s ease; }
+.score-pts { font-family: 'Bricolage Grotesque'; font-size: 18px; font-weight: 700; min-width: 36px; text-align: right; }
+
+.voters-list { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--border); }
+.voters-list h4 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 14px; font-weight: 600; }
+.voter { padding: 12px 0; border-bottom: 1px dashed var(--border); }
+.voter:last-child { border-bottom: 0; }
+.voter-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.voter-name { font-weight: 700; font-size: 15px; }
+.voter-date { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.voter-ranks { display: flex; gap: 8px; flex-wrap: wrap; font-size: 12px; }
+.voter-rank { display: flex; align-items: center; gap: 5px; padding: 3px 9px; background: var(--bg); border-radius: 999px; color: var(--text-muted); }
+.voter-rank strong { color: var(--text); }
+.voter-comment { font-size: 13px; color: var(--text-muted); margin-top: 8px; font-style: italic; line-height: 1.5; }
 
 footer { background: var(--bg-soft); border-top: 1px solid var(--border); padding: 44px 32px; text-align: center; color: var(--text-muted); font-size: 13px; margin-top: 80px; }
 footer p { margin: 4px 0; line-height: 1.6; }
@@ -328,7 +370,7 @@ footer p { margin: 4px 0; line-height: 1.6; }
 @media (min-width: 769px) { .dest-nav-mobile { display: none !important; } }
 
 @media (max-width: 1024px) {
-  .vote-grid { grid-template-columns: repeat(2, 1fr); }
+  .vote-layout { grid-template-columns: 1fr 1fr; }
   .group { grid-template-columns: repeat(2, 1fr); }
   .lodging-row { grid-template-columns: 160px 1fr; }
   .lodging-row .lodging-price { grid-column: 1 / -1; text-align: left; padding-top: 6px; border-top: 1px dashed var(--border); }
@@ -354,7 +396,8 @@ footer p { margin: 4px 0; line-height: 1.6; }
   .ranking-item { grid-template-columns: 56px 1fr; padding: 22px; }
   .rank-num { font-size: 42px; }
   .rank-price { grid-column: 1 / -1; text-align: right; padding-top: 12px; border-top: 1px solid var(--border); margin-top: 14px; }
-  .vote-grid { grid-template-columns: 1fr; }
+  .vote-layout { grid-template-columns: 1fr; }
+  .score-row { grid-template-columns: 24px 1fr auto; } .score-bar-wrap { display: none; }
   .dest-hero { padding: 110px 20px 50px; min-height: auto; }
   .trip-map { padding: 22px 14px; }
   .trip-route {
@@ -1783,13 +1826,69 @@ footer p { margin: 4px 0; line-height: 1.6; }
   <section style="padding-top: 30px">
     <div class="section-kicker">Vote final</div>
     <h2 class="section-title">À vous de voter.</h2>
-    <p class="section-intro">Chacun envoie son top 3 par ordre de préférence à Louis. On compile et on choisit. Top 1 = 3pts, Top 2 = 2pts, Top 3 = 1pt.</p>
+    <p class="section-intro">Top 1 = 3pts · Top 2 = 2pts · Top 3 = 1pt. Pas de double dans ton classement. Tu peux re-voter quand tu veux, tous tes votes comptent (ouais ouais).</p>
 
-    <div class="vote-grid">
-      <div class="vote-card"><h4>Louis</h4><div class="vote-role">Le planneur</div><div class="vote-status">À remplir</div></div>
-      <div class="vote-card"><h4>Robin</h4><div class="vote-role">Rentré de St Trop</div><div class="vote-status">En attente</div></div>
-      <div class="vote-card"><h4>Hugo</h4><div class="vote-role">Rentré de St Trop</div><div class="vote-status">En attente</div></div>
-      <div class="vote-card"><h4>Jules</h4><div class="vote-role">Sortie d'armée</div><div class="vote-status">En attente</div></div>
+    <div class="vote-layout">
+      <form class="vote-form" id="vote-form" onsubmit="submitVote(event)">
+        <h3>Ton classement</h3>
+        <label>Ton prénom
+          <input type="text" id="vote-name" maxlength="30" placeholder="Robin / Hugo / Jules / Louis" required>
+        </label>
+        <label>🥇 Top 1 (3 pts)
+          <select id="vote-r1" required>
+            <option value="">Choisir...</option>
+            <option value="georgie">Géorgie</option>
+            <option value="albanie">Albanie</option>
+            <option value="montenegro">Monténégro</option>
+            <option value="madere">Madère</option>
+            <option value="bosnie">Bosnie</option>
+            <option value="acores">Açores</option>
+            <option value="slovenie">Slovénie</option>
+            <option value="maroc">Maroc</option>
+          </select>
+        </label>
+        <label>🥈 Top 2 (2 pts)
+          <select id="vote-r2" required>
+            <option value="">Choisir...</option>
+            <option value="georgie">Géorgie</option>
+            <option value="albanie">Albanie</option>
+            <option value="montenegro">Monténégro</option>
+            <option value="madere">Madère</option>
+            <option value="bosnie">Bosnie</option>
+            <option value="acores">Açores</option>
+            <option value="slovenie">Slovénie</option>
+            <option value="maroc">Maroc</option>
+          </select>
+        </label>
+        <label>🥉 Top 3 (1 pt)
+          <select id="vote-r3" required>
+            <option value="">Choisir...</option>
+            <option value="georgie">Géorgie</option>
+            <option value="albanie">Albanie</option>
+            <option value="montenegro">Monténégro</option>
+            <option value="madere">Madère</option>
+            <option value="bosnie">Bosnie</option>
+            <option value="acores">Açores</option>
+            <option value="slovenie">Slovénie</option>
+            <option value="maroc">Maroc</option>
+          </select>
+        </label>
+        <label>Commentaire (optionnel)
+          <textarea id="vote-comment" maxlength="280" placeholder="Pourquoi ce classement ? Une remarque, une vanne..."></textarea>
+        </label>
+        <button type="submit" id="vote-submit">Envoyer mon vote</button>
+        <div id="vote-msg"></div>
+      </form>
+
+      <div class="scoreboard">
+        <h3>Classement live</h3>
+        <div class="scoreboard-sub" id="scoreboard-sub">Chargement...</div>
+        <div id="score-rows"></div>
+        <div class="voters-list">
+          <h4>Qui a voté</h4>
+          <div id="voters-rows"><div style="color:var(--text-muted);font-size:13px">Aucun vote pour l'instant.</div></div>
+        </div>
+      </div>
     </div>
   </section>
 </div>
@@ -1904,6 +2003,105 @@ document.addEventListener('click', function(e) {
     document.getElementById('dest-dropdown').classList.remove('open');
   }
 });
+
+/* ============ VOTE / SUPABASE ============ */
+const SB_URL = 'https://hpowqowzrxqokikadwni.supabase.co';
+const SB_KEY = 'sb_publishable_ur6QJNvP7_nMlQ23PAy35w_IPqk8IV4';
+const SB_HEADERS = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' };
+
+async function submitVote(e) {
+  e.preventDefault();
+  const name = document.getElementById('vote-name').value.trim();
+  const r1 = document.getElementById('vote-r1').value;
+  const r2 = document.getElementById('vote-r2').value;
+  const r3 = document.getElementById('vote-r3').value;
+  const comment = document.getElementById('vote-comment').value.trim() || null;
+  const msg = document.getElementById('vote-msg');
+  const btn = document.getElementById('vote-submit');
+  msg.className = ''; msg.textContent = '';
+  if (!name || !r1 || !r2 || !r3) { msg.className = 'vote-msg err'; msg.textContent = 'Remplis tout stp.'; return; }
+  if (new Set([r1, r2, r3]).size !== 3) { msg.className = 'vote-msg err'; msg.textContent = 'Tu peux pas mettre la même destination 2 fois.'; return; }
+  btn.disabled = true; btn.textContent = 'Envoi...';
+  try {
+    const res = await fetch(SB_URL + '/rest/v1/vacances_votes', {
+      method: 'POST',
+      headers: { ...SB_HEADERS, 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ voter_name: name, rank_1: r1, rank_2: r2, rank_3: r3, comment })
+    });
+    if (!res.ok) {
+      const t = await res.text();
+      throw new Error(t || res.statusText);
+    }
+    msg.className = 'vote-msg ok'; msg.textContent = 'Vote enregistré, merci ' + name + ' ! 🎉';
+    document.getElementById('vote-r1').value = '';
+    document.getElementById('vote-r2').value = '';
+    document.getElementById('vote-r3').value = '';
+    document.getElementById('vote-comment').value = '';
+    loadVotes();
+  } catch (err) {
+    msg.className = 'vote-msg err'; msg.textContent = 'Erreur : ' + (err.message || 'réessaye');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Envoyer mon vote';
+  }
+}
+
+async function loadVotes() {
+  try {
+    const res = await fetch(SB_URL + '/rest/v1/vacances_votes?select=*&order=created_at.desc', { headers: SB_HEADERS });
+    if (!res.ok) throw new Error('fetch failed');
+    const votes = await res.json();
+    renderScoreboard(votes);
+    renderVoters(votes);
+  } catch (err) {
+    document.getElementById('scoreboard-sub').textContent = 'Impossible de charger les votes.';
+  }
+}
+
+function renderScoreboard(votes) {
+  const scores = {};
+  DESTS.forEach(d => scores[d] = 0);
+  votes.forEach(v => { scores[v.rank_1] += 3; scores[v.rank_2] += 2; scores[v.rank_3] += 1; });
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+  const max = Math.max(...Object.values(scores), 1);
+  const sub = document.getElementById('scoreboard-sub');
+  sub.textContent = votes.length + ' vote' + (votes.length > 1 ? 's' : '') + ' · ' + (votes.length ? 'on actualise live' : 'sois le premier');
+  const html = sorted.map(([dest, pts], i) => {
+    const pct = (pts / max) * 100;
+    return '<div class="score-row ' + (i === 0 && pts > 0 ? 'top1' : '') + '" style="--c:' + DEST_COLORS[dest] + '">'
+      + '<div class="score-rank">' + (i + 1) + '</div>'
+      + '<div class="score-dest"><span class="score-dot" style="background:' + DEST_COLORS[dest] + '"></span>' + DEST_NAMES[dest] + '</div>'
+      + '<div class="score-bar-wrap"><div class="score-bar" style="width:' + pct + '%"></div></div>'
+      + '<div class="score-pts">' + pts + '</div>'
+      + '</div>';
+  }).join('');
+  document.getElementById('score-rows').innerHTML = html;
+}
+
+function renderVoters(votes) {
+  const box = document.getElementById('voters-rows');
+  if (!votes.length) { box.innerHTML = '<div style="color:var(--text-muted);font-size:13px">Aucun vote pour l\'instant.</div>'; return; }
+  const html = votes.map(v => {
+    const date = new Date(v.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+    const c = v.comment ? '<div class="voter-comment">« ' + escapeHtml(v.comment) + ' »</div>' : '';
+    return '<div class="voter">'
+      + '<div class="voter-head"><div class="voter-name">' + escapeHtml(v.voter_name) + '</div><div class="voter-date">' + date + '</div></div>'
+      + '<div class="voter-ranks">'
+      + '<span class="voter-rank">🥇 <strong>' + DEST_NAMES[v.rank_1] + '</strong></span>'
+      + '<span class="voter-rank">🥈 <strong>' + DEST_NAMES[v.rank_2] + '</strong></span>'
+      + '<span class="voter-rank">🥉 <strong>' + DEST_NAMES[v.rank_3] + '</strong></span>'
+      + '</div>'
+      + c
+      + '</div>';
+  }).join('');
+  box.innerHTML = html;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+loadVotes();
+setInterval(loadVotes, 15000);
 </script>
 
 </body>
