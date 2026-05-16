@@ -301,6 +301,39 @@ section { padding: 96px 32px; max-width: 1340px; margin: 0 auto; }
 .voter-rank strong { color: var(--text); }
 .voter-comment { font-size: 13px; color: var(--text-muted); margin-top: 8px; font-style: italic; line-height: 1.5; }
 
+.suggest-block {
+  margin-top: 56px; background: linear-gradient(135deg, oklch(0.22 0.04 280 / 0.45), oklch(0.2 0.03 200 / 0.35));
+  border: 1px solid oklch(0.5 0.1 280 / 0.3); border-radius: 18px; padding: 32px;
+  display: grid; grid-template-columns: 1fr 1.2fr; gap: 28px; align-items: start;
+}
+.suggest-block h3 { font-size: 24px; margin-bottom: 8px; }
+.suggest-block .suggest-intro { color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 16px; }
+.suggest-form { display: flex; flex-direction: column; gap: 14px; }
+.suggest-form label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+.suggest-form input, .suggest-form textarea {
+  background: var(--bg); border: 1px solid var(--border); color: var(--text);
+  border-radius: 10px; padding: 11px 14px; font-size: 15px; font-family: inherit; outline: 0;
+  transition: border-color 0.2s;
+}
+.suggest-form input:focus, .suggest-form textarea:focus { border-color: oklch(0.7 0.18 280); }
+.suggest-form textarea { resize: vertical; min-height: 60px; }
+.suggest-form button {
+  background: oklch(0.7 0.18 280); color: oklch(0.12 0.012 260); border: 0;
+  padding: 12px 18px; border-radius: 10px; font-weight: 700; font-size: 14px;
+  cursor: pointer; transition: transform 0.15s, opacity 0.2s;
+  font-family: 'Bricolage Grotesque', sans-serif; align-self: flex-start;
+}
+.suggest-form button:hover:not(:disabled) { transform: translateY(-1px); }
+.suggest-form button:disabled { opacity: 0.55; cursor: not-allowed; }
+.suggest-list { display: flex; flex-direction: column; gap: 10px; max-height: 360px; overflow-y: auto; padding-right: 4px; }
+.suggest-list h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 4px; font-weight: 600; }
+.suggest-item { background: oklch(0.16 0.012 260 / 0.5); border: 1px solid oklch(1 0 0 / 0.06); border-radius: 12px; padding: 14px 16px; }
+.suggest-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; gap: 10px; }
+.suggest-dest { font-weight: 700; font-size: 16px; color: oklch(0.85 0.14 280); font-family: 'Bricolage Grotesque'; }
+.suggest-meta { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap; }
+.suggest-reason { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+.suggest-empty { color: var(--text-muted); font-size: 13px; padding: 10px 0; }
+
 footer { background: var(--bg-soft); border-top: 1px solid var(--border); padding: 44px 32px; text-align: center; color: var(--text-muted); font-size: 13px; margin-top: 80px; }
 footer p { margin: 4px 0; line-height: 1.6; }
 
@@ -398,6 +431,7 @@ footer p { margin: 4px 0; line-height: 1.6; }
   .rank-price { grid-column: 1 / -1; text-align: right; padding-top: 12px; border-top: 1px solid var(--border); margin-top: 14px; }
   .vote-layout { grid-template-columns: 1fr; }
   .score-row { grid-template-columns: 24px 1fr auto; } .score-bar-wrap { display: none; }
+  .suggest-block { grid-template-columns: 1fr; padding: 24px; }
   .dest-hero { padding: 110px 20px 50px; min-height: auto; }
   .trip-map { padding: 22px 14px; }
   .trip-route {
@@ -616,6 +650,14 @@ footer p { margin: 4px 0; line-height: 1.6; }
         </div>
         <button class="cta">Voir l'itinéraire →</button>
       </div>
+    </div>
+
+    <div style="margin-top: 36px; padding: 22px 26px; background: linear-gradient(135deg, oklch(0.22 0.04 280 / 0.45), oklch(0.2 0.03 200 / 0.35)); border: 1px solid oklch(0.5 0.1 280 / 0.3); border-radius: 16px; display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;">
+      <div>
+        <div style="font-family:'Bricolage Grotesque';font-size:19px;font-weight:700;margin-bottom:4px">Une destination manque ?</div>
+        <div style="color:var(--text-muted);font-size:14px">Si t'as une idée qu'on a pas creusée, balance-la dans l'onglet vote, je relance des recherches dessus.</div>
+      </div>
+      <button onclick="showView('vote')" style="background:oklch(0.7 0.18 280);color:oklch(0.12 0.012 260);border:0;padding:11px 18px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;font-family:'Bricolage Grotesque';white-space:nowrap">Proposer une destination →</button>
     </div>
 
   </div>
@@ -1890,6 +1932,32 @@ footer p { margin: 4px 0; line-height: 1.6; }
         </div>
       </div>
     </div>
+
+    <div class="suggest-block">
+      <div>
+        <h3>Une destination qui manque ?</h3>
+        <p class="suggest-intro">T'as une idée qu'on a pas creusée et qui te fait envie ? Balance-la ici. Je récup la liste et je relance un round de recherche dessus (vols, budget, itinéraire). On rajoutera peut-être un onglet pour ta proposition.</p>
+        <form class="suggest-form" id="suggest-form" onsubmit="submitSuggestion(event)">
+          <label>Ton prénom
+            <input type="text" id="sug-name" maxlength="30" placeholder="Robin / Hugo / Jules / Louis" required>
+          </label>
+          <label>La destination
+            <input type="text" id="sug-dest" maxlength="80" placeholder="Sri Lanka, Kirghizistan, Norvège..." required>
+          </label>
+          <label>Pourquoi ? (optionnel)
+            <textarea id="sug-reason" maxlength="280" placeholder="Trek, plage, capitale stylée, prix bas..."></textarea>
+          </label>
+          <button type="submit" id="sug-submit">Proposer</button>
+          <div id="sug-msg"></div>
+        </form>
+      </div>
+      <div>
+        <h4 style="font-size:13px;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:14px;font-weight:600">Propositions du crew</h4>
+        <div class="suggest-list" id="suggest-list">
+          <div class="suggest-empty">Aucune proposition pour l'instant.</div>
+        </div>
+      </div>
+    </div>
   </section>
 </div>
 
@@ -2102,6 +2170,58 @@ function escapeHtml(s) {
 
 loadVotes();
 setInterval(loadVotes, 15000);
+
+/* ============ SUGGESTIONS ============ */
+async function submitSuggestion(e) {
+  e.preventDefault();
+  const name = document.getElementById('sug-name').value.trim();
+  const dest = document.getElementById('sug-dest').value.trim();
+  const reason = document.getElementById('sug-reason').value.trim() || null;
+  const msg = document.getElementById('sug-msg');
+  const btn = document.getElementById('sug-submit');
+  msg.className = ''; msg.textContent = '';
+  if (!name || !dest) { msg.className = 'vote-msg err'; msg.textContent = 'Mets ton prénom + une destination.'; return; }
+  btn.disabled = true; btn.textContent = 'Envoi...';
+  try {
+    const res = await fetch(SB_URL + '/rest/v1/vacances_suggestions', {
+      method: 'POST',
+      headers: { ...SB_HEADERS, 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ voter_name: name, destination: dest, reason })
+    });
+    if (!res.ok) throw new Error(await res.text() || res.statusText);
+    msg.className = 'vote-msg ok'; msg.textContent = 'Bien reçu ' + name + ', je creuse ' + dest + ' bientôt 🔍';
+    document.getElementById('sug-dest').value = '';
+    document.getElementById('sug-reason').value = '';
+    loadSuggestions();
+  } catch (err) {
+    msg.className = 'vote-msg err'; msg.textContent = 'Erreur : ' + (err.message || 'réessaye');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Proposer';
+  }
+}
+
+async function loadSuggestions() {
+  try {
+    const res = await fetch(SB_URL + '/rest/v1/vacances_suggestions?select=*&order=created_at.desc', { headers: SB_HEADERS });
+    if (!res.ok) throw new Error('fetch failed');
+    const items = await res.json();
+    const box = document.getElementById('suggest-list');
+    if (!items.length) { box.innerHTML = '<div class="suggest-empty">Aucune proposition pour l\'instant.</div>'; return; }
+    box.innerHTML = items.map(s => {
+      const date = new Date(s.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+      const reason = s.reason ? '<div class="suggest-reason">' + escapeHtml(s.reason) + '</div>' : '';
+      return '<div class="suggest-item">'
+        + '<div class="suggest-head"><div class="suggest-dest">' + escapeHtml(s.destination) + '</div>'
+        + '<div class="suggest-meta">' + escapeHtml(s.voter_name) + ' · ' + date + '</div></div>'
+        + reason
+        + '</div>';
+    }).join('');
+  } catch (err) {
+    document.getElementById('suggest-list').innerHTML = '<div class="suggest-empty">Impossible de charger les propositions.</div>';
+  }
+}
+loadSuggestions();
+setInterval(loadSuggestions, 30000);
 </script>
 
 </body>
